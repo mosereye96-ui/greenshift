@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GreenShift — See Your Yard Transformed</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green-deep: #1b3a2d;
+      --green-mid: #2d5a42;
+      --green-light: #4a8c65;
+      --cream: #f4efe6;
+      --cream-dark: #e8e0d0;
+      --gold: #b8975a;
+      --gold-light: #d4b07a;
+      --white: #ffffff;
+      --text-dark: #1a2218;
+      --text-muted: #5a6b5e;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Jost', sans-serif;
+      background: var(--cream);
+      color: var(--text-dark);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 48px;
+      background: rgba(27, 58, 45, 0.95);
+      backdrop-filter: blur(12px);
+    }
+
+    .logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--cream);
+      letter-spacing: 0.02em;
+    }
+
+    .logo span { color: var(--gold-light); }
+
+    nav a {
+      color: var(--cream);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      opacity: 0.8;
+      transition: opacity 0.2s;
+    }
+
+    nav a:hover { opacity: 1; }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      padding-top: 80px;
+    }
+
+    .hero-left {
+      background: var(--green-deep);
+      padding: 80px 64px 80px 64px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-left::before {
+      content: '';
+      position: absolute;
+      top: -120px; right: -120px;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(74,140,101,0.25) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-left::after {
+      content: '';
+      position: absolute;
+      bottom: -80px; left: -80px;
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, rgba(184,151,90,0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .eyebrow {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold-light);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .eyebrow::before {
+      content: '';
+      display: block;
+      width: 32px;
+      height: 1px;
+      background: var(--gold);
+    }
+
+    h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.8rem, 4vw, 4.2rem);
+      font-weight: 700;
+      line-height: 1.1;
+      color: var(--cream);
+      margin-bottom: 28px;
+    }
+
+    h1 em {
+      font-style: italic;
+      color: var(--gold-light);
+    }
+
+    .hero-sub {
+      font-size: 1rem;
+      font-weight: 300;
+      line-height: 1.7;
+      color: rgba(244, 239, 230, 0.7);
+      max-width: 420px;
+      margin-bottom: 48px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 40px;
+    }
+
+    .stat {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--gold-light);
+    }
+
+    .stat-label {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(244,239,230,0.5);
+    }
+
+    /* ── FORM SIDE ── */
+    .hero-right {
+      background: var(--cream);
+      padding: 80px 64px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .form-card {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 48px 44px;
+      box-shadow: 0 24px 80px rgba(27,58,45,0.12);
+      border: 1px solid var(--cream-dark);
+    }
+
+    .form-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.9rem;
+      font-weight: 700;
+      color: var(--green-deep);
+      margin-bottom: 8px;
+    }
+
+    .form-sub {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-bottom: 32px;
+      line-height: 1.6;
+    }
+
+    /* Upload zone */
+    .upload-zone {
+      border: 2px dashed var(--cream-dark);
+      border-radius: 14px;
+      padding: 32px 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.25s;
+      margin-bottom: 24px;
+      background: var(--cream);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .upload-zone:hover, .upload-zone.dragover {
+      border-color: var(--green-light);
+      background: rgba(74,140,101,0.05);
+    }
+
+    .upload-zone input[type="file"] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+      width: 100%;
+      height: 100%;
+    }
+
+    .upload-icon {
+      width: 48px; height: 48px;
+      margin: 0 auto 14px;
+      background: var(--green-deep);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .upload-icon svg { width: 24px; height: 24px; fill: none; stroke: var(--gold-light); stroke-width: 1.8; }
+
+    .upload-text {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--green-deep);
+      margin-bottom: 4px;
+    }
+
+    .upload-hint {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .upload-preview {
+      width: 100%;
+      max-height: 180px;
+      object-fit: cover;
+      border-radius: 10px;
+      display: none;
+      margin-bottom: 16px;
+    }
+
+    /* Form fields */
+    .fields {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .field-full { grid-column: 1 / -1; }
+
+    label {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 13px 16px;
+      border: 1.5px solid var(--cream-dark);
+      border-radius: 10px;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.92rem;
+      color: var(--text-dark);
+      background: var(--white);
+      transition: border-color 0.2s;
+      outline: none;
+      appearance: none;
+    }
+
+    input::placeholder { color: #b0b8b2; }
+
+    input:focus, select:focus { border-color: var(--green-light); }
+
+    .submit-btn {
+      width: 100%;
+      padding: 16px;
+      background: var(--green-deep);
+      color: var(--cream);
+      border: none;
+      border-radius: 12px;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.92rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.25s;
+      margin-top: 8px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .submit-btn:hover {
+      background: var(--green-mid);
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px rgba(27,58,45,0.3);
+    }
+
+    .submit-btn:active { transform: translateY(0); }
+
+    .submit-btn.loading { pointer-events: none; opacity: 0.7; }
+
+    .privacy-note {
+      text-align: center;
+      font-size: 0.74rem;
+      color: var(--text-muted);
+      margin-top: 14px;
+    }
+
+    /* ── SUCCESS STATE ── */
+    .success-state {
+      display: none;
+      text-align: center;
+      padding: 32px 0;
+    }
+
+    .success-icon {
+      width: 64px; height: 64px;
+      background: linear-gradient(135deg, var(--green-mid), var(--green-light));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+    }
+
+    .success-icon svg { width: 32px; height: 32px; stroke: white; fill: none; stroke-width: 2.5; }
+
+    .success-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--green-deep);
+      margin-bottom: 10px;
+    }
+
+    .success-sub {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* ── HOW IT WORKS ── */
+    .how {
+      padding: 120px 80px;
+      background: var(--green-deep);
+      text-align: center;
+    }
+
+    .section-eyebrow {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold-light);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .section-eyebrow::before, .section-eyebrow::after {
+      content: '';
+      display: block;
+      width: 32px; height: 1px;
+      background: var(--gold);
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 3vw, 3rem);
+      font-weight: 700;
+      color: var(--cream);
+      margin-bottom: 16px;
+    }
+
+    .section-sub {
+      font-size: 0.95rem;
+      color: rgba(244,239,230,0.6);
+      max-width: 480px;
+      margin: 0 auto 72px;
+      line-height: 1.7;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .step {
+      padding: 48px 40px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      position: relative;
+      transition: background 0.3s;
+    }
+
+    .step:first-child { border-radius: 16px 0 0 16px; }
+    .step:last-child { border-radius: 0 16px 16px 0; }
+
+    .step:hover { background: rgba(255,255,255,0.08); }
+
+    .step-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 4rem;
+      font-weight: 700;
+      color: rgba(184,151,90,0.2);
+      line-height: 1;
+      margin-bottom: 20px;
+    }
+
+    .step-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--cream);
+      margin-bottom: 12px;
+    }
+
+    .step-desc {
+      font-size: 0.85rem;
+      color: rgba(244,239,230,0.55);
+      line-height: 1.7;
+    }
+
+    /* ── BENEFITS ── */
+    .benefits {
+      padding: 120px 80px;
+      background: var(--cream);
+    }
+
+    .benefits-inner {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .benefits-text .section-eyebrow {
+      justify-content: flex-start;
+    }
+
+    .benefits-text .section-eyebrow::before { display: none; }
+
+    .benefits-text .section-title {
+      color: var(--green-deep);
+      text-align: left;
+      margin-bottom: 40px;
+    }
+
+    .benefit-list {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .benefit-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+    }
+
+    .benefit-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--gold);
+      margin-top: 7px;
+      flex-shrink: 0;
+    }
+
+    .benefit-content h4 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--green-deep);
+      margin-bottom: 4px;
+    }
+
+    .benefit-content p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .benefits-visual {
+      background: var(--green-deep);
+      border-radius: 24px;
+      padding: 48px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .savings-card {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 14px;
+      padding: 24px 28px;
+    }
+
+    .savings-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold-light);
+      margin-bottom: 8px;
+    }
+
+    .savings-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.4rem;
+      font-weight: 700;
+      color: var(--cream);
+      line-height: 1;
+    }
+
+    .savings-sub {
+      font-size: 0.8rem;
+      color: rgba(244,239,230,0.5);
+      margin-top: 4px;
+    }
+
+    /* ── CTA ── */
+    .cta-section {
+      padding: 100px 80px;
+      background: var(--green-mid);
+      text-align: center;
+    }
+
+    .cta-section .section-title { color: var(--cream); margin-bottom: 12px; }
+
+    .cta-section .section-sub { color: rgba(244,239,230,0.65); margin-bottom: 40px; }
+
+    .cta-btn {
+      display: inline-block;
+      padding: 18px 48px;
+      background: var(--gold);
+      color: var(--green-deep);
+      border-radius: 100px;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: all 0.25s;
+    }
+
+    .cta-btn:hover {
+      background: var(--gold-light);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.25);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--green-deep);
+      padding: 40px 80px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    footer .logo { font-size: 1.3rem; }
+
+    footer p {
+      font-size: 0.78rem;
+      color: rgba(244,239,230,0.4);
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-left > * {
+      animation: fadeUp 0.7s ease both;
+    }
+
+    .hero-left .eyebrow { animation-delay: 0.1s; }
+    .hero-left h1 { animation-delay: 0.2s; }
+    .hero-left .hero-sub { animation-delay: 0.3s; }
+    .hero-left .hero-stats { animation-delay: 0.4s; }
+
+    .form-card {
+      animation: fadeUp 0.7s 0.25s ease both;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; }
+      .hero-left { padding: 60px 32px; min-height: auto; }
+      .hero-right { padding: 40px 24px; }
+      .how { padding: 80px 24px; }
+      .steps { grid-template-columns: 1fr; gap: 2px; }
+      .step:first-child { border-radius: 16px 16px 0 0; }
+      .step:last-child { border-radius: 0 0 16px 16px; }
+      .benefits { padding: 80px 24px; }
+      .benefits-inner { grid-template-columns: 1fr; gap: 40px; }
+      .fields { grid-template-columns: 1fr; }
+      nav { padding: 16px 24px; }
+      footer { flex-direction: column; gap: 12px; text-align: center; padding: 32px 24px; }
+      .cta-section { padding: 80px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="logo">Green<span>Shift</span></div>
+    <a href="#form">Get Free Preview</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-left">
+      <div class="eyebrow">Free Yard Visualization</div>
+      <h1>See Your Yard <em>Transformed</em> Before You Spend a Dime</h1>
+      <p class="hero-sub">Upload a photo of your yard and we'll show you exactly what it looks like with premium artificial turf — no commitment, no sales pressure.</p>
+      <div class="hero-stats">
+        <div class="stat">
+          <span class="stat-num">70%</span>
+          <span class="stat-label">Less Water Usage</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">$0</span>
+          <span class="stat-label">Mowing Forever</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">15yr</span>
+          <span class="stat-label">Lifespan</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-right" id="form">
+      <div class="form-card">
+
+        <!-- FORM STATE -->
+        <div id="formState">
+          <div class="form-title">Get Your Free Preview</div>
+          <p class="form-sub">Upload a yard photo and we'll send your personalized turf rendering within 24 hours.</p>
+
+          <div class="upload-zone" id="uploadZone">
+            <input type="file" id="fileInput" accept="image/*" />
+            <img class="upload-preview" id="preview" alt="Preview" />
+            <div id="uploadContent">
+              <div class="upload-icon">
+                <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+              </div>
+              <div class="upload-text">Upload your yard photo</div>
+              <div class="upload-hint">JPG, PNG or HEIC · Click or drag & drop</div>
+            </div>
+          </div>
+
+          <div class="fields">
+            <div>
+              <label>First Name</label>
+              <input type="text" id="firstName" placeholder="John" />
+            </div>
+            <div>
+              <label>Last Name</label>
+              <input type="text" id="lastName" placeholder="Smith" />
+            </div>
+            <div class="field-full">
+              <label>Email Address</label>
+              <input type="email" id="email" placeholder="john@email.com" />
+            </div>
+            <div class="field-full">
+              <label>Phone Number</label>
+              <input type="tel" id="phone" placeholder="(408) 555-0000" />
+            </div>
+            <div class="field-full">
+              <label>Property Zip Code</label>
+              <input type="text" id="zip" placeholder="95002" maxlength="5" />
+            </div>
+            <div class="field-full">
+              <label>Approximate Yard Size</label>
+              <select id="yardSize">
+                <option value="">Select yard size</option>
+                <option value="small">Small — Under 500 sq ft</option>
+                <option value="medium">Medium — 500–1,500 sq ft</option>
+                <option value="large">Large — 1,500–3,000 sq ft</option>
+                <option value="xlarge">Extra Large — 3,000+ sq ft</option>
+              </select>
+            </div>
+          </div>
+
+          <button class="submit-btn" id="submitBtn" onclick="handleSubmit()">
+            Send Me My Free Rendering →
+          </button>
+          <p class="privacy-note">🔒 Your info is never shared. No spam, ever.</p>
+        </div>
+
+        <!-- SUCCESS STATE -->
+        <div class="success-state" id="successState">
+          <div class="success-icon">
+            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div class="success-title">You're All Set!</div>
+          <p class="success-sub">Your personalized turf rendering is on its way. Check your inbox within 24 hours — we think you're going to love what you see.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="how">
+    <div class="section-eyebrow">How It Works</div>
+    <h2 class="section-title">Three Steps to Your New Yard</h2>
+    <p class="section-sub">We make it easy to visualize the transformation before making any decisions.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-title">Upload Your Photo</div>
+        <p class="step-desc">Snap a photo of your current yard — front, back, side, whatever you want transformed.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-title">We Generate Your Rendering</div>
+        <p class="step-desc">Our team uses AI to create a photorealistic preview of your yard with premium turf installed.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-title">Get a Free Quote</div>
+        <p class="step-desc">Love what you see? We connect you with a vetted local installer for a no-obligation quote.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- BENEFITS -->
+  <section class="benefits">
+    <div class="benefits-inner">
+      <div class="benefits-text">
+        <div class="section-eyebrow">Why Artificial Turf</div>
+        <h2 class="section-title">Stop Maintaining. Start Enjoying.</h2>
+        <div class="benefit-list">
+          <div class="benefit-item">
+            <div class="benefit-dot"></div>
+            <div class="benefit-content">
+              <h4>Cut Your Water Bill by Up to 70%</h4>
+              <p>No irrigation needed. In the Bay Area that's real savings every single month — not just in summer.</p>
+            </div>
+          </div>
+          <div class="benefit-item">
+            <div class="benefit-dot"></div>
+            <div class="benefit-content">
+              <h4>Zero Lawn Maintenance — Ever</h4>
+              <p>No mowing, no fertilizing, no weeding. Get your weekends back for good.</p>
+            </div>
+          </div>
+          <div class="benefit-item">
+            <div class="benefit-dot"></div>
+            <div class="benefit-content">
+              <h4>Safe for Kids & Dogs</h4>
+              <p>No pesticides, no mud, no bare patches. Built to handle constant play and bounce back every time.</p>
+            </div>
+          </div>
+          <div class="benefit-item">
+            <div class="benefit-dot"></div>
+            <div class="benefit-content">
+              <h4>Stays Green Year Round</h4>
+              <p>No brown seasons, no patchy spots. Perfect curb appeal 365 days a year.</p>
+            </div>
+          </div>
+          <div class="benefit-item">
+            <div class="benefit-dot"></div>
+            <div class="benefit-content">
+              <h4>Lasts 15+ Years</h4>
+              <p>One investment that pays itself off in a few years and keeps delivering for over a decade.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="benefits-visual">
+        <div class="savings-card">
+          <div class="savings-label">Average Annual Water Savings</div>
+          <div class="savings-num">$800+</div>
+          <div class="savings-sub">Per year for a 1,000 sq ft lawn in California</div>
+        </div>
+        <div class="savings-card">
+          <div class="savings-label">Lawn Care Costs Eliminated</div>
+          <div class="savings-num">$1,200+</div>
+          <div class="savings-sub">Per year in mowing, fertilizer & treatments</div>
+        </div>
+        <div class="savings-card">
+          <div class="savings-label">Average Payback Period</div>
+          <div class="savings-num">3–4 yrs</div>
+          <div class="savings-sub">Then it's pure savings for the next 10+ years</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="section-eyebrow">Ready to See It?</div>
+    <h2 class="section-title">Get Your Free Rendering Today</h2>
+    <p class="section-sub">No cost, no commitment. Just a preview of your yard the way it could look.</p>
+    <a href="#form" class="cta-btn">Get My Free Preview →</a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="logo">Green<span>Shift</span></div>
+    <p>© 2025 GreenShift · Bay Area, California</p>
+  </footer>
+
+  <script>
+    // Upload preview
+    const fileInput = document.getElementById('fileInput');
+    const preview = document.getElementById('preview');
+    const uploadContent = document.getElementById('uploadContent');
+    const uploadZone = document.getElementById('uploadZone');
+
+    fileInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        preview.src = ev.target.result;
+        preview.style.display = 'block';
+        uploadContent.style.display = 'none';
+      };
+      reader.readAsDataURL(file);
+    });
+
+    uploadZone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      uploadZone.classList.add('dragover');
+    });
+
+    uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('dragover'));
+
+    uploadZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      uploadZone.classList.remove('dragover');
+      const file = e.dataTransfer.files[0];
+      if (file && file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          preview.src = ev.target.result;
+          preview.style.display = 'block';
+          uploadContent.style.display = 'none';
+        };
+        reader.readAsDataURL(file);
+        fileInput.files = e.dataTransfer.files;
+      }
+    });
+
+    // Form submit
+    function handleSubmit() {
+      const firstName = document.getElementById('firstName').value.trim();
+      const lastName = document.getElementById('lastName').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const zip = document.getElementById('zip').value.trim();
+
+      if (!firstName || !email || !phone) {
+        alert('Please fill in your name, email, and phone number.');
+        return;
+      }
+
+      const btn = document.getElementById('submitBtn');
+      btn.textContent = 'Submitting...';
+      btn.classList.add('loading');
+
+      // Simulate submission — replace with your actual backend/email service
+      setTimeout(() => {
+        document.getElementById('formState').style.display = 'none';
+        document.getElementById('successState').style.display = 'block';
+      }, 1200);
+    }
+  </script>
+</body>
+</html>
