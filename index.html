@@ -25,7 +25,7 @@
 
     body {
       font-family: 'Jost', sans-serif;
-      background: var(--cream);
+      background: var(--green-deep);
       color: var(--text-dark);
       overflow-x: hidden;
     }
@@ -36,11 +36,31 @@
       top: 0; left: 0; right: 0;
       z-index: 100;
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 20px 48px;
+      flex-direction: column;
       background: rgba(27, 58, 45, 0.95);
       backdrop-filter: blur(12px);
+      border: none;
+      outline: none;
+      gap: 0;
+      overflow: hidden;
+    }
+
+    .nav-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 48px 10px;
+    }
+
+    .grass-canvas-full {
+      display: block;
+      width: 100%;
+      height: 22px;
+      flex-shrink: 0;
+      border: none;
+      outline: none;
+      margin: 0;
+      padding: 0;
     }
 
     .logo {
@@ -49,23 +69,12 @@
       font-weight: 700;
       color: var(--cream);
       letter-spacing: 0.02em;
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
       line-height: 1;
     }
 
     .logo span { color: var(--gold-light); }
 
     .logo-text { display: flex; align-items: baseline; }
-
-    /* ── GRASS CANVAS ── */
-    .grass-canvas {
-      display: block;
-      border-radius: 6px;
-      width: 180px;
-      height: 32px;
-    }
 
     nav a {
       color: var(--cream);
@@ -85,7 +94,7 @@
       min-height: 100vh;
       display: grid;
       grid-template-columns: 1fr 1fr;
-      padding-top: 80px;
+      padding-top: 110px;
     }
 
     .hero-left {
@@ -649,7 +658,7 @@
       .benefits { padding: 80px 24px; }
       .benefits-inner { grid-template-columns: 1fr; gap: 40px; }
       .fields { grid-template-columns: 1fr; }
-      nav { padding: 16px 24px; }
+      .nav-top { padding: 14px 24px; }
       footer { flex-direction: column; gap: 12px; text-align: center; padding: 32px 24px; }
       .cta-section { padding: 80px 24px; }
     }
@@ -659,11 +668,11 @@
 
   <!-- NAV -->
   <nav>
-    <div class="logo">
-      <div class="logo-text">Greeen<span>shift</span></div>
-      <canvas class="grass-canvas" id="grassNav" width="360" height="64"></canvas>
+    <div class="nav-top">
+      <div class="logo">Greeen<span>shift</span></div>
+      <a href="#form">Get Free Preview</a>
     </div>
-    <a href="#form">Get Free Preview</a>
+    <canvas class="grass-canvas-full" id="grassNav" width="1440" height="44"></canvas>
   </nav>
 
   <!-- HERO -->
@@ -671,7 +680,7 @@
     <div class="hero-left">
       <div class="eyebrow">Free Yard Visualization</div>
       <h1>See Your Yard <em>Transformed</em> Before You Spend a Dime</h1>
-      <p class="hero-sub">Upload a photo of your yard and we'll show you exactly what it looks like with premium artificial turf — no commitment, no sales pressure.</p>
+      <p class="hero-sub">Upload a photo of your yard and we'll show you exactly what it looks like with premium artificial turf — no commitment. Just your yard, transformed.</p>
       <div class="hero-stats">
         <div class="stat">
           <span class="stat-num">70%</span>
@@ -860,10 +869,7 @@
 
   <!-- FOOTER -->
   <footer>
-    <div class="logo">
-      <div class="logo-text">Greeen<span>shift</span></div>
-      <canvas class="grass-canvas" id="grassFooter" width="360" height="64"></canvas>
-    </div>
+    <div class="logo">Greeen<span>shift</span></div>
     <p>© 2025 Greeenshift · Bay Area, California</p>
   </footer>
 
@@ -976,7 +982,7 @@
       const x=bx+(rng()-.5)*1.2;
       const t=Math.max(0,Math.min(1,(x-TRANS_START)/(TRANS_END-TRANS_START)));
       const ri=Math.floor(rng()*realPalette.length), fi=Math.floor(rng()*fakePalette.length);
-      const hReal=18+rng()*46, hFake=26+rng()*8, h=hReal+(hFake-hReal)*t;
+      const hReal=10+rng()*22, hFake=13+rng()*4, h=hReal+(hFake-hReal)*t;
       const lean=((rng()-.5)*20)*(1-t*0.88)+((rng()-.5)*3)*t;
       const curve=((rng()-.5)*14)*(1-t);
       const w=1.2+rng()*0.8, speed=0.013+rng()*0.017;
@@ -984,7 +990,7 @@
       const isDead=t<0.05&&deadPositions.has(idx%Math.floor((TRANS_START*0.85)/1.6));
       const di=Math.floor(deadRng()*deadPalette.length);
       const color=isDead?`rgb(${deadPalette[di][0]},${deadPalette[di][1]},${deadPalette[di][2]})`:lerpColor(realPalette[ri],fakePalette[fi],t);
-      const deadH=isDead?8+deadRng()*14:h;
+      const deadH=isDead?4+deadRng()*7:h;
       const deadLean=isDead?(20+deadRng()*30)*(deadRng()>.5?1:-1):lean;
       blades.push({x,h:deadH,lean:deadLean,color,w:isDead?1.0+deadRng()*0.6:w,curve:isDead?deadLean*0.4:curve,speed,windAmt:isDead?0.3:windAmt,phase:rng()*Math.PI*2});
       idx++;
@@ -996,12 +1002,8 @@
     }
     function render(){
       ctx.clearRect(0,0,W,H);
-      const bg=ctx.createLinearGradient(0,0,0,H);
-      bg.addColorStop(0,'#0f1f14'); bg.addColorStop(1,'#182a1c');
-      ctx.fillStyle=bg; ctx.fillRect(0,0,W,H);
-      const soil=ctx.createLinearGradient(0,H-10,0,H);
-      soil.addColorStop(0,'#2e1e08'); soil.addColorStop(1,'#180e04');
-      ctx.fillStyle=soil; ctx.fillRect(0,H-10,W,10);
+      ctx.fillStyle='rgb(27,58,45)';
+      ctx.fillRect(0,0,W,H);
       blades.forEach(b=>{
         const wind=Math.sin(frame*b.speed+b.phase)*b.windAmt;
         drawBlade(b.x,b.h,b.lean,b.color,b.w,b.curve,wind);
@@ -1011,6 +1013,6 @@
     render();
   }
   drawGrass('grassNav');
-  drawGrass('grassFooter');
+  </script>
 </body>
 </html>
