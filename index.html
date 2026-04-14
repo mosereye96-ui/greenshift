@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GreenShift — See Your Yard Transformed</title>
+  <title>Greeenshift — See Your Yard Transformed</title>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -49,9 +49,23 @@
       font-weight: 700;
       color: var(--cream);
       letter-spacing: 0.02em;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      line-height: 1;
     }
 
     .logo span { color: var(--gold-light); }
+
+    .logo-text { display: flex; align-items: baseline; }
+
+    /* ── GRASS CANVAS ── */
+    .grass-canvas {
+      display: block;
+      border-radius: 6px;
+      width: 180px;
+      height: 32px;
+    }
 
     nav a {
       color: var(--cream);
@@ -645,7 +659,10 @@
 
   <!-- NAV -->
   <nav>
-    <div class="logo">Green<span>Shift</span></div>
+    <div class="logo">
+      <div class="logo-text">Greeen<span>shift</span></div>
+      <canvas class="grass-canvas" id="grassNav" width="360" height="64"></canvas>
+    </div>
     <a href="#form">Get Free Preview</a>
   </nav>
 
@@ -843,8 +860,11 @@
 
   <!-- FOOTER -->
   <footer>
-    <div class="logo">Green<span>Shift</span></div>
-    <p>© 2025 GreenShift · Bay Area, California</p>
+    <div class="logo">
+      <div class="logo-text">Greeen<span>shift</span></div>
+      <canvas class="grass-canvas" id="grassFooter" width="360" height="64"></canvas>
+    </div>
+    <p>© 2025 Greeenshift · Bay Area, California</p>
   </footer>
 
   <script>
@@ -890,12 +910,13 @@
     });
 
     // Form submit
-    function handleSubmit() {
+    async function handleSubmit() {
       const firstName = document.getElementById('firstName').value.trim();
       const lastName = document.getElementById('lastName').value.trim();
       const email = document.getElementById('email').value.trim();
       const phone = document.getElementById('phone').value.trim();
       const zip = document.getElementById('zip').value.trim();
+      const yardSize = document.getElementById('yardSize').value;
 
       if (!firstName || !email || !phone) {
         alert('Please fill in your name, email, and phone number.');
@@ -906,12 +927,90 @@
       btn.textContent = 'Submitting...';
       btn.classList.add('loading');
 
-      // Simulate submission — replace with your actual backend/email service
-      setTimeout(() => {
-        document.getElementById('formState').style.display = 'none';
-        document.getElementById('successState').style.display = 'block';
-      }, 1200);
+      try {
+        const response = await fetch('https://formspree.io/f/xgoreqpy', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            'First Name': firstName,
+            'Last Name': lastName,
+            'Email': email,
+            'Phone': phone,
+            'Zip Code': zip,
+            'Yard Size': yardSize,
+          })
+        });
+
+        if (response.ok) {
+          document.getElementById('formState').style.display = 'none';
+          document.getElementById('successState').style.display = 'block';
+        } else {
+          btn.textContent = 'Send Me My Free Rendering →';
+          btn.classList.remove('loading');
+          alert('Something went wrong. Please try again.');
+        }
+      } catch (err) {
+        btn.textContent = 'Send Me My Free Rendering →';
+        btn.classList.remove('loading');
+        alert('Something went wrong. Please try again.');
+      }
     }
-  </script>
+  // ── GRASS CANVAS LOGO ──
+  function drawGrass(canvasId) {
+    const canvas = document.getElementById(canvasId);
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const W = canvas.width, H = canvas.height;
+    let frame = 0;
+    function sr(s){return()=>{s=(s*1664525+1013904223)&0xffffffff;return(s>>>0)/0xffffffff}}
+    const TRANS_START=W*0.38, TRANS_END=W*0.62;
+    function lerpColor(r,f,t){return`rgb(${Math.round(r[0]+(f[0]-r[0])*t)},${Math.round(r[1]+(f[1]-r[1])*t)},${Math.round(r[2]+(f[2]-r[2])*t)})`}
+    const realPalette=[[38,90,18],[55,115,28],[70,135,38],[28,72,14],[48,100,22],[42,108,20],[32,80,16]];
+    const fakePalette=[[42,160,72],[50,175,82],[36,148,65],[44,165,76],[38,155,68]];
+    const deadPalette=[[139,110,40],[158,128,48],[120,95,32],[145,118,38],[110,88,28],[160,130,50]];
+    const rng=sr(77), blades=[];
+    const deadRng=sr(13), deadPositions=new Set();
+    for(let i=0;i<14;i++) deadPositions.add(Math.floor(4+deadRng()*((TRANS_START*0.85)/1.6)));
+    let idx=0;
+    for(let bx=0;bx<W;bx+=1.6){
+      const x=bx+(rng()-.5)*1.2;
+      const t=Math.max(0,Math.min(1,(x-TRANS_START)/(TRANS_END-TRANS_START)));
+      const ri=Math.floor(rng()*realPalette.length), fi=Math.floor(rng()*fakePalette.length);
+      const hReal=18+rng()*46, hFake=26+rng()*8, h=hReal+(hFake-hReal)*t;
+      const lean=((rng()-.5)*20)*(1-t*0.88)+((rng()-.5)*3)*t;
+      const curve=((rng()-.5)*14)*(1-t);
+      const w=1.2+rng()*0.8, speed=0.013+rng()*0.017;
+      const windAmt=(3.5+rng()*5)*(1-t*0.82)+0.5;
+      const isDead=t<0.05&&deadPositions.has(idx%Math.floor((TRANS_START*0.85)/1.6));
+      const di=Math.floor(deadRng()*deadPalette.length);
+      const color=isDead?`rgb(${deadPalette[di][0]},${deadPalette[di][1]},${deadPalette[di][2]})`:lerpColor(realPalette[ri],fakePalette[fi],t);
+      const deadH=isDead?8+deadRng()*14:h;
+      const deadLean=isDead?(20+deadRng()*30)*(deadRng()>.5?1:-1):lean;
+      blades.push({x,h:deadH,lean:deadLean,color,w:isDead?1.0+deadRng()*0.6:w,curve:isDead?deadLean*0.4:curve,speed,windAmt:isDead?0.3:windAmt,phase:rng()*Math.PI*2});
+      idx++;
+    }
+    function drawBlade(x,h,lean,color,lw,curve,wind){
+      const tx=x+lean+wind, ty=H-h, cx=x+lean*0.5+curve+wind*0.55, cy=H-h*0.6;
+      ctx.beginPath(); ctx.moveTo(x,H); ctx.quadraticCurveTo(cx,cy,tx,ty);
+      ctx.strokeStyle=color; ctx.lineWidth=lw; ctx.lineCap='round'; ctx.stroke();
+    }
+    function render(){
+      ctx.clearRect(0,0,W,H);
+      const bg=ctx.createLinearGradient(0,0,0,H);
+      bg.addColorStop(0,'#0f1f14'); bg.addColorStop(1,'#182a1c');
+      ctx.fillStyle=bg; ctx.fillRect(0,0,W,H);
+      const soil=ctx.createLinearGradient(0,H-10,0,H);
+      soil.addColorStop(0,'#2e1e08'); soil.addColorStop(1,'#180e04');
+      ctx.fillStyle=soil; ctx.fillRect(0,H-10,W,10);
+      blades.forEach(b=>{
+        const wind=Math.sin(frame*b.speed+b.phase)*b.windAmt;
+        drawBlade(b.x,b.h,b.lean,b.color,b.w,b.curve,wind);
+      });
+      frame++; requestAnimationFrame(render);
+    }
+    render();
+  }
+  drawGrass('grassNav');
+  drawGrass('grassFooter');
 </body>
 </html>
