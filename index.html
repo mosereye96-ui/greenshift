@@ -727,6 +727,82 @@
       box-shadow: 0 12px 32px rgba(0,0,0,0.25);
     }
 
+    /* ── AI VISUALIZER ── */
+    .visualizer-section {
+      background: var(--cream);
+      padding: 100px 64px;
+    }
+
+    .visualizer-inner {
+      max-width: 780px;
+      margin: 0 auto;
+    }
+
+    .viz-card {
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 24px 80px rgba(27,58,45,0.1);
+      border: 1px solid rgba(27,58,45,0.08);
+      margin-top: 40px;
+    }
+
+    .viz-upload-zone {
+      border: 2px dashed var(--cream-dark);
+      border-radius: 14px;
+      padding: 40px 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.25s;
+      margin-bottom: 20px;
+      background: var(--cream);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .viz-upload-zone:hover, .viz-upload-zone.dragover {
+      border-color: var(--green-light);
+      background: rgba(74,140,101,0.05);
+    }
+
+    .viz-upload-zone input[type="file"] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+      width: 100%;
+      height: 100%;
+    }
+
+    .viz-btn {
+      width: 100%;
+      padding: 16px;
+      background: var(--green-deep);
+      color: var(--cream);
+      border: none;
+      border-radius: 12px;
+      font-family: 'Jost', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-top: 8px;
+    }
+
+    .viz-btn:hover { background: var(--green-mid); }
+
+    .viz-spinner {
+      width: 48px; height: 48px;
+      border: 4px solid rgba(27,58,45,0.15);
+      border-top-color: var(--green-deep);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
     /* ── FOOTER ── */
     footer {
       background: var(--green-deep);
@@ -879,6 +955,56 @@
           <p class="success-sub">Your personalized turf rendering is on its way. Check your inbox within 24 hours — we think you're going to love what you see.</p>
         </div>
 
+      </div>
+    </div>
+  </section>
+
+  <!-- AI VISUALIZER -->
+  <section class="visualizer-section">
+    <div class="visualizer-inner">
+      <div class="eyebrow" style="justify-content:center; margin-bottom:16px;">Free AI Rendering</div>
+      <h2 class="section-title" style="color:var(--cream); text-align:center;">See Your Yard With Turf — Instantly</h2>
+      <p class="section-sub" style="text-align:center; color:rgba(244,239,230,0.65);">Upload a photo of your yard and our AI will show you exactly what it looks like with artificial turf installed.</p>
+
+      <div class="viz-card">
+        <!-- Upload State -->
+        <div id="vizUpload">
+          <div class="viz-upload-zone" id="vizZone">
+            <input type="file" id="vizInput" accept="image/*" />
+            <div id="vizUploadContent">
+              <div class="upload-icon"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg></div>
+              <div class="upload-text">Drop your yard photo here</div>
+              <div class="upload-hint">JPG or PNG · Click or drag & drop</div>
+            </div>
+            <img id="vizPreview" class="upload-preview" alt="" />
+          </div>
+          <button class="viz-btn" id="vizBtn" onclick="runVisualizer()">Generate My Turf Preview →</button>
+        </div>
+
+        <!-- Loading State -->
+        <div id="vizLoading" style="display:none; text-align:center; padding:48px;">
+          <div class="viz-spinner"></div>
+          <p style="color:var(--green-deep); margin-top:20px; font-weight:500;">Generating your rendering…<br><span style="font-size:0.8rem; color:var(--text-muted);">This takes about 30 seconds</span></p>
+        </div>
+
+        <!-- Result State -->
+        <div id="vizResult" style="display:none;">
+          <p style="text-align:center; color:var(--text-muted); font-size:0.85rem; margin-bottom:16px;">Drag the handle to compare</p>
+          <div class="slider-wrap" id="vizSliderWrap" style="aspect-ratio:4/3; margin-bottom:24px;">
+            <img class="slider-img" id="vizBefore" src="" alt="Before" draggable="false" />
+            <img class="slider-img" id="vizAfter"  src="" alt="After"  draggable="false" style="clip-path:inset(0 0 0 50%)" />
+            <div class="slider-handle" id="vizHandle"></div>
+            <span class="slider-label slider-label-before">Before</span>
+            <span class="slider-label slider-label-after">After</span>
+          </div>
+          <button class="viz-btn" onclick="resetVisualizer()">Try Another Photo</button>
+        </div>
+
+        <!-- Error State -->
+        <div id="vizError" style="display:none; text-align:center; padding:32px;">
+          <p style="color:#c0392b; margin-bottom:16px;" id="vizErrorMsg">Something went wrong.</p>
+          <button class="viz-btn" onclick="resetVisualizer()">Try Again</button>
+        </div>
       </div>
     </div>
   </section>
@@ -1075,6 +1201,102 @@
         alert('Something went wrong. Please try again.');
       }
     }
+
+  // ── AI VISUALIZER ──
+  const vizInput = document.getElementById('vizInput');
+  const vizZone  = document.getElementById('vizZone');
+  const vizPreview = document.getElementById('vizPreview');
+  const vizUploadContent = document.getElementById('vizUploadContent');
+  let vizImageBase64 = null;
+
+  vizInput.addEventListener('change', e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+      vizImageBase64 = ev.target.result;
+      vizPreview.src = vizImageBase64;
+      vizPreview.style.display = 'block';
+      vizUploadContent.style.display = 'none';
+    };
+    reader.readAsDataURL(file);
+  });
+
+  vizZone.addEventListener('dragover', e => { e.preventDefault(); vizZone.classList.add('dragover'); });
+  vizZone.addEventListener('dragleave', () => vizZone.classList.remove('dragover'));
+  vizZone.addEventListener('drop', e => {
+    e.preventDefault();
+    vizZone.classList.remove('dragover');
+    const file = e.dataTransfer.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+      vizImageBase64 = ev.target.result;
+      vizPreview.src = vizImageBase64;
+      vizPreview.style.display = 'block';
+      vizUploadContent.style.display = 'none';
+    };
+    reader.readAsDataURL(file);
+  });
+
+  async function runVisualizer() {
+    if (!vizImageBase64) { alert('Please upload a photo of your yard first.'); return; }
+    document.getElementById('vizUpload').style.display  = 'none';
+    document.getElementById('vizLoading').style.display = 'block';
+    document.getElementById('vizResult').style.display  = 'none';
+    document.getElementById('vizError').style.display   = 'none';
+    try {
+      const res = await fetch('/.netlify/functions/render', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ image: vizImageBase64 })
+      });
+      const data = await res.json();
+      if (!res.ok || !data.output) throw new Error(data.error || 'No output returned');
+      const outputUrl = Array.isArray(data.output) ? data.output[0] : data.output;
+      document.getElementById('vizBefore').src = vizImageBase64;
+      document.getElementById('vizAfter').src  = outputUrl;
+      document.getElementById('vizLoading').style.display = 'none';
+      document.getElementById('vizResult').style.display  = 'block';
+      initVizSlider();
+    } catch(err) {
+      document.getElementById('vizLoading').style.display = 'none';
+      document.getElementById('vizError').style.display   = 'block';
+      document.getElementById('vizErrorMsg').textContent  = 'Something went wrong: ' + err.message;
+    }
+  }
+
+  function resetVisualizer() {
+    vizImageBase64 = null;
+    vizPreview.style.display = 'none';
+    vizUploadContent.style.display = 'block';
+    vizInput.value = '';
+    document.getElementById('vizUpload').style.display  = 'block';
+    document.getElementById('vizLoading').style.display = 'none';
+    document.getElementById('vizResult').style.display  = 'none';
+    document.getElementById('vizError').style.display   = 'none';
+  }
+
+  function initVizSlider() {
+    const wrap   = document.getElementById('vizSliderWrap');
+    const handle = document.getElementById('vizHandle');
+    const after  = document.getElementById('vizAfter');
+    let dragging = false;
+    function getPercent(e) {
+      const rect = wrap.getBoundingClientRect();
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      return Math.max(2, Math.min(98, ((clientX - rect.left) / rect.width) * 100));
+    }
+    function move(pct) { handle.style.left = pct + '%'; after.style.clipPath = 'inset(0 0 0 ' + pct + '%)'; }
+    move(50);
+    wrap.addEventListener('mousedown',  e => { e.preventDefault(); dragging = true; move(getPercent(e)); });
+    wrap.addEventListener('touchstart', e => { dragging = true; move(getPercent(e)); }, { passive: true });
+    window.addEventListener('mousemove', e => { if (dragging) { e.preventDefault(); move(getPercent(e)); } }, { passive: false });
+    window.addEventListener('touchmove', e => { if (dragging) move(getPercent(e)); }, { passive: true });
+    window.addEventListener('mouseup',  () => dragging = false);
+    window.addEventListener('touchend', () => dragging = false);
+  }
+
   // ── GRASS CANVAS LOGO ──
   function drawGrass(canvasId) {
     const canvas = document.getElementById(canvasId);
