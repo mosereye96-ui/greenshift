@@ -1246,19 +1246,33 @@
     document.getElementById('vizResult').style.display  = 'none';
     document.getElementById('vizError').style.display   = 'none';
     try {
-      const res = await fetch('/.netlify/functions/render', {
+      // Step 1: Start the prediction
+      const startRes = await fetch('/.netlify/functions/start-render', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ image: vizImageBase64 })
       });
-      const data = await res.json();
-      if (!res.ok || !data.output) throw new Error(data.error || 'No output returned');
-      const outputUrl = Array.isArray(data.output) ? data.output[0] : data.output;
-      document.getElementById('vizBefore').src = vizImageBase64;
-      document.getElementById('vizAfter').src  = outputUrl;
-      document.getElementById('vizLoading').style.display = 'none';
-      document.getElementById('vizResult').style.display  = 'block';
-      initVizSlider();
+      const startData = await startRes.json();
+      if (!startData.id) throw new Error(startData.error || 'Failed to start');
+
+      // Step 2: Poll until done
+      const predId = startData.id;
+      for (let i = 0; i < 40; i++) {
+        await new Promise(r => setTimeout(r, 3000));
+        const pollRes = await fetch('/.netlify/functions/check-render?id=' + predId);
+        const pollData = await pollRes.json();
+        if (pollData.status === 'succeeded' && pollData.output) {
+          const outputUrl = Array.isArray(pollData.output) ? pollData.output[0] : pollData.output;
+          document.getElementById('vizBefore').src = vizImageBase64;
+          document.getElementById('vizAfter').src  = outputUrl;
+          document.getElementById('vizLoading').style.display = 'none';
+          document.getElementById('vizResult').style.display  = 'block';
+          initVizSlider();
+          return;
+        }
+        if (pollData.status === 'failed') throw new Error(pollData.error || 'Prediction failed');
+      }
+      throw new Error('Timed out — try again');
     } catch(err) {
       document.getElementById('vizLoading').style.display = 'none';
       document.getElementById('vizError').style.display   = 'block';
