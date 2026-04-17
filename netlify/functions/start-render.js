@@ -29,10 +29,6 @@ exports.handler = async function(event) {
 
   const prediction = await res.json();
 
-  if (prediction.error || prediction.title) {
-    return { statusCode: 500, body: JSON.stringify({ error: prediction.detail || prediction.error }) };
-  }
-
   if (!prediction.id) {
     return { statusCode: 500, body: JSON.stringify({ error: 'Failed to start' }) };
   }
@@ -40,6 +36,6 @@ exports.handler = async function(event) {
   return {
     statusCode: 200,
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ id: prediction.id, output: prediction.output })
+    body: JSON.stringify({ id: prediction.id })
   };
 };
