@@ -15,12 +15,11 @@ exports.handler = async function(event) {
     method: 'POST',
     headers: {
       'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json',
-      'Prefer': 'wait=5'
+      'Content-Type': 'application/json'
     },
     body: JSON.stringify({
       input: {
-        prompt: 'Replace all the grass and dirt with lush green artificial turf, synthetic lawn, photorealistic, same yard same fence same background',
+        prompt: 'Replace all grass and dirt with lush green artificial turf, synthetic lawn, photorealistic',
         image_input: [image],
         aspect_ratio: 'match_input_image',
         output_format: 'jpg'
@@ -28,19 +27,11 @@ exports.handler = async function(event) {
     })
   });
 
-  const prediction = await res.json();
-
-  if (prediction.error) {
-    return { statusCode: 500, body: JSON.stringify({ error: prediction.error }) };
-  }
-
-  if (!prediction.id) {
-    return { statusCode: 500, body: JSON.stringify({ error: 'Failed to start', detail: JSON.stringify(prediction) }) };
-  }
-
+  const text = await res.text();
+  
   return {
     statusCode: 200,
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ id: prediction.id, output: prediction.output })
+    body: JSON.stringify({ error: 'Raw response: ' + text })
   };
 };
