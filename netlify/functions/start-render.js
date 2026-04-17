@@ -11,22 +11,19 @@ exports.handler = async function(event) {
   const { image } = body;
   if (!image) return { statusCode: 400, body: JSON.stringify({ error: 'No image provided' }) };
 
-  const base64 = image.replace(/^data:image\/\w+;base64,/, '');
-
-  const res = await fetch('https://api.replicate.com/v1/predictions', {
+  const res = await fetch('https://api.replicate.com/v1/models/google/nano-banana-pro/predictions', {
     method: 'POST',
     headers: {
-      'Authorization': `Token ${token}`,
-      'Content-Type': 'application/json'
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json',
+      'Prefer': 'wait=5'
     },
     body: JSON.stringify({
-      version: 'a00d0b7dcbb9c3fbb34ba87d2d5b46c56969c84a628bf778a7fdaec30b1b99c5',
       input: {
-        image: `data:image/jpeg;base64,${base64}`,
-        prompt: 'lush green artificial turf grass installed in backyard, synthetic lawn, professional landscaping, photorealistic',
-        negative_prompt: 'dead grass, weeds, dirt, ugly, blurry',
-        strength: 0.7,
-        num_inference_steps: 20
+        prompt: 'Replace all the grass and dirt with lush green artificial turf, synthetic lawn, photorealistic, same yard same fence same background',
+        image_input: [image],
+        aspect_ratio: 'match_input_image',
+        output_format: 'jpg'
       }
     })
   });
@@ -44,6 +41,6 @@ exports.handler = async function(event) {
   return {
     statusCode: 200,
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ id: prediction.id })
+    body: JSON.stringify({ id: prediction.id, output: prediction.output })
   };
 };
