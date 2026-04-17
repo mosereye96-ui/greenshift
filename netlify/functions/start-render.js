@@ -11,15 +11,13 @@ exports.handler = async function(event) {
   const { image } = body;
   if (!image) return { statusCode: 400, body: JSON.stringify({ error: 'No image provided' }) };
 
-  // Strip data URL prefix if present, Replicate wants raw base64
   const base64 = image.replace(/^data:image\/\w+;base64,/, '');
 
   const res = await fetch('https://api.replicate.com/v1/predictions', {
     method: 'POST',
     headers: {
       'Authorization': `Token ${token}`,
-      'Content-Type': 'application/json',
-      'Prefer': 'wait'
+      'Content-Type': 'application/json'
     },
     body: JSON.stringify({
       version: 'a00d0b7dcbb9c3fbb34ba87d2d5b46c56969c84a628bf778a7fdaec30b1b99c5',
@@ -34,22 +32,13 @@ exports.handler = async function(event) {
   });
 
   const prediction = await res.json();
-  
+
   if (prediction.error) {
     return { statusCode: 500, body: JSON.stringify({ error: prediction.error }) };
   }
 
   if (!prediction.id) {
     return { statusCode: 500, body: JSON.stringify({ error: 'Failed to start', detail: JSON.stringify(prediction) }) };
-  }
-
-  // If already done (Prefer: wait)
-  if (prediction.status === 'succeeded') {
-    return {
-      statusCode: 200,
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id: prediction.id, output: prediction.output })
-    };
   }
 
   return {
