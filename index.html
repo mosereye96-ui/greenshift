@@ -24,12 +24,16 @@ body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--dark);
 /* NAV */
 nav{
   position:fixed;top:0;left:0;right:0;z-index:100;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:20px 48px;
+  display:flex;flex-direction:column;
   background:rgba(13,31,20,0.95);
   backdrop-filter:blur(12px);
   border-bottom:1px solid rgba(255,255,255,0.06);
 }
+.nav-inner{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 48px;
+}
+#grassNav{display:block;width:100%;height:44px;}
 .nav-logo{display:flex;align-items:center;gap:10px;}
 .nav-logo-icon{width:36px;height:36px;border-radius:10px;background:var(--gold);display:flex;align-items:center;justify-content:center;}
 .nav-logo-icon svg{width:20px;height:20px;}
@@ -50,7 +54,7 @@ nav{
   display:grid;
   grid-template-columns:1fr 1fr;
   align-items:center;
-  padding:120px 48px 80px;
+  padding:140px 48px 80px;
   gap:64px;
   position:relative;
   overflow:hidden;
@@ -331,6 +335,7 @@ footer{
 
 <!-- NAV -->
 <nav>
+  <div class="nav-inner">
   <div class="nav-logo">
     <div class="nav-logo-icon">
       <svg viewBox="0 0 20 20" fill="none">
@@ -342,6 +347,8 @@ footer{
     <span class="nav-wordmark">Greeen<span>shift</span></span>
   </div>
   <a href="#visualizer" class="nav-cta">Try Free →</a>
+  </div>
+  <canvas id="grassNav" width="1440" height="44"></canvas>
 </nav>
 
 <!-- HERO -->
@@ -638,6 +645,51 @@ async function submitLead(e){
     }
   }catch(err){console.error(err);}
 }
+
+  // GRASS ANIMATION
+  function drawGrass(canvasId){
+    const canvas=document.getElementById(canvasId);if(!canvas)return;
+    const ctx=canvas.getContext('2d');const W=canvas.width,H=canvas.height;let frame=0;
+    function sr(s){return()=>{s=(s*1664525+1013904223)&0xffffffff;return(s>>>0)/0xffffffff}}
+    const TRANS_START=W*0.38,TRANS_END=W*0.62;
+    function lerpColor(r,f,t){return`rgb(${Math.round(r[0]+(f[0]-r[0])*t)},${Math.round(r[1]+(f[1]-r[1])*t)},${Math.round(r[2]+(f[2]-r[2])*t)})`}
+    const realPalette=[[38,90,18],[55,115,28],[70,135,38],[28,72,14],[48,100,22],[42,108,20],[32,80,16]];
+    const fakePalette=[[42,160,72],[50,175,82],[36,148,65],[44,165,76],[38,155,68]];
+    const deadPalette=[[139,110,40],[158,128,48],[120,95,32],[145,118,38],[110,88,28],[160,130,50]];
+    const rng=sr(77),blades=[];
+    const deadRng=sr(13),deadPositions=new Set();
+    for(let i=0;i<14;i++)deadPositions.add(Math.floor(4+deadRng()*((TRANS_START*0.85)/1.6)));
+    let idx=0;
+    for(let bx=0;bx<W;bx+=1.6){
+      const x=bx+(rng()-.5)*1.2;
+      const t=Math.max(0,Math.min(1,(x-TRANS_START)/(TRANS_END-TRANS_START)));
+      const ri=Math.floor(rng()*realPalette.length),fi=Math.floor(rng()*fakePalette.length);
+      const hReal=10+rng()*22,hFake=13+rng()*4,h=hReal+(hFake-hReal)*t;
+      const lean=((rng()-.5)*20)*(1-t*0.88)+((rng()-.5)*3)*t;
+      const curve=((rng()-.5)*14)*(1-t);
+      const w=1.2+rng()*0.8,speed=0.013+rng()*0.017;
+      const windAmt=(3.5+rng()*5)*(1-t*0.82)+0.5;
+      const isDead=t<0.05&&deadPositions.has(idx%Math.floor((TRANS_START*0.85)/1.6));
+      const di=Math.floor(deadRng()*deadPalette.length);
+      const color=isDead?`rgb(${deadPalette[di][0]},${deadPalette[di][1]},${deadPalette[di][2]})`:lerpColor(realPalette[ri],fakePalette[fi],t);
+      const deadH=isDead?4+deadRng()*7:h;
+      const deadLean=isDead?(20+deadRng()*30)*(deadRng()>.5?1:-1):lean;
+      blades.push({x,h:deadH,lean:deadLean,color,w:isDead?1.0+deadRng()*0.6:w,curve:isDead?deadLean*0.4:curve,speed,windAmt:isDead?0.3:windAmt,phase:rng()*Math.PI*2});
+      idx++;
+    }
+    function drawBlade(x,h,lean,color,lw,curve,wind){
+      const tx=x+lean+wind,ty=H-h,cx=x+lean*0.5+curve+wind*0.55,cy=H-h*0.6;
+      ctx.beginPath();ctx.moveTo(x,H);ctx.quadraticCurveTo(cx,cy,tx,ty);
+      ctx.strokeStyle=color;ctx.lineWidth=lw;ctx.lineCap='round';ctx.stroke();
+    }
+    function render(){
+      ctx.clearRect(0,0,W,H);ctx.fillStyle='rgb(13,31,20)';ctx.fillRect(0,0,W,H);
+      blades.forEach(b=>{const wind=Math.sin(frame*b.speed+b.phase)*b.windAmt;drawBlade(b.x,b.h,b.lean,b.color,b.w,b.curve,wind);});
+      frame++;requestAnimationFrame(render);
+    }
+    render();
+  }
+  drawGrass('grassNav');
 </script>
 </body>
 </html>
