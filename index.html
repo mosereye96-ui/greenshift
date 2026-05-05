@@ -561,11 +561,12 @@
     will-change: transform;
   }
   .marquee-track span {
-    font-family: var(--serif);
-    font-style: italic;
-    font-size: clamp(1.3rem, 4vw, 3rem);
-    font-weight: 400;
-    letter-spacing: -0.01em;
+    font-family: var(--mono);
+    font-style: normal;
+    font-size: clamp(0.75rem, 1.4vw, 1rem);
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
   }
   @media (max-width: 720px) {
     .marquee { padding: 1rem 0; }
@@ -745,9 +746,9 @@
   }
   .form-grid h2 {
     font-family: var(--serif);
-    font-size: var(--display-md);
+    font-size: var(--display-lg);
     font-weight: 700;
-    line-height: 1;
+    line-height: 0.95;
     letter-spacing: -0.03em;
     margin-bottom: 1.5rem;
   }
@@ -1101,13 +1102,13 @@
     <span>Bay Area only</span><span class="dot">●</span>
     <span>No obligation</span><span class="dot">●</span>
     <span>Free preview</span><span class="dot">●</span>
-    <span>~24hr turnaround</span><span class="dot">●</span>
+    <span>24/7 quotes</span><span class="dot">●</span>
     <span>One photo</span><span class="dot">●</span>
     <span>AI rendered</span><span class="dot">●</span>
     <span>Bay Area only</span><span class="dot">●</span>
     <span>No obligation</span><span class="dot">●</span>
     <span>Free preview</span><span class="dot">●</span>
-    <span>~24hr turnaround</span><span class="dot">●</span>
+    <span>24/7 quotes</span><span class="dot">●</span>
     <span>One photo</span><span class="dot">●</span>
   </div>
 </div>
@@ -1180,12 +1181,8 @@
       <h2>One <em>photo</em>.<br />One free render.</h2>
       <p>
         Fill the form, attach your yard photo, and we'll have your AI render
-        back within ~24 hours. Or call <a href="tel:+14085551234" style="text-decoration: underline; text-decoration-color: var(--gold); text-underline-offset: 4px; font-weight: 500; color: var(--gold);">(408) 555-1234</a> if you'd rather talk.
+        back within ~24 hours.
       </p>
-      <div style="margin-top: 2.5rem;">
-        <span class="label" style="display: block;">Or skip the form</span>
-        <a href="#" class="btn btn-primary" data-calendly style="margin-top: 0.5rem;">Book a 15-min call →</a>
-      </div>
     </div>
 
     <form class="reveal" id="quoteForm" name="quote" method="POST" data-netlify="true">
@@ -1267,8 +1264,11 @@
       <div class="foot-col">
         <h4>Service area</h4>
         <p>San Jose</p>
-        <p>San Francisco</p>
-        <p>Peninsula · South Bay</p>
+        <p>Santa Clara</p>
+        <p>Cupertino</p>
+        <p>Campbell</p>
+        <p>Saratoga</p>
+        <p>Los Gatos</p>
       </div>
       <div class="foot-col">
         <h4>Company</h4>
