@@ -11,7 +11,7 @@
 <!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600;1,700&family=Instrument+Serif:ital@0;1&family=Manrope:wght@200;300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600;1,700&family=Manrope:wght@200;300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
 
 <!-- Calendly -->
 <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet" />
@@ -33,7 +33,6 @@
     --line-cream: rgba(250, 241, 202, 0.18);
 
     --serif: 'EB Garamond', Georgia, serif;
-    --accent: 'Instrument Serif', Georgia, serif;
     --sans: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
     --mono: 'JetBrains Mono', ui-monospace, 'SF Mono', monospace;
 
@@ -98,7 +97,7 @@
     line-height: 1;
   }
   .logo-text i {
-    font-family: var(--accent);
+    font-family: var(--serif);
     font-style: italic;
     font-weight: 400;
     letter-spacing: -0.01em;
@@ -230,25 +229,29 @@
   .hero-meta strong { font-weight: 500; opacity: 1; color: var(--gold); }
   .hero-display {
     font-family: var(--serif);
-    font-weight: 400;
+    font-weight: 600;
     font-size: var(--display-xxl);
-    line-height: 0.85;
+    line-height: 0.9;
     letter-spacing: -0.04em;
     margin-bottom: 2.5rem;
   }
   .hero-display em {
-    font-family: var(--accent);
-    font-style: italic;
-    font-weight: 400;
+    font-family: var(--serif);
+    font-style: normal;
+    font-weight: 700;
     color: var(--spring);
-    letter-spacing: -0.01em;
+    letter-spacing: -0.02em;
   }
   .hero-bottom {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 3rem;
     align-items: end;
-    border-top: 1px solid var(--line-cream);
+    border-top: 1px solid transparent;
+    background-image: linear-gradient(to right, var(--gold) 0%, var(--gold) 80px, var(--line-cream) 80px, var(--line-cream) 100%);
+    background-size: 100% 1px;
+    background-repeat: no-repeat;
+    background-position: top left;
     padding-top: 2rem;
   }
   .hero-tagline {
@@ -379,16 +382,16 @@
   .slider-head h2 {
     font-family: var(--serif);
     font-size: var(--display-lg);
-    font-weight: 400;
-    line-height: 0.9;
+    font-weight: 600;
+    line-height: 0.95;
     letter-spacing: -0.03em;
   }
   .slider-head h2 em {
-    font-family: var(--accent);
-    font-style: italic;
-    font-weight: 400;
+    font-family: var(--serif);
+    font-style: normal;
+    font-weight: 700;
     color: var(--spring);
-    letter-spacing: -0.01em;
+    letter-spacing: -0.02em;
   }
   .slider-head .copy {
     max-width: 32rem;
@@ -401,11 +404,15 @@
     font-size: var(--label);
     text-transform: uppercase;
     letter-spacing: 0.22em;
-    opacity: 0.65;
+    opacity: 0.75;
     margin-bottom: 1rem;
     display: inline-block;
   }
-  .label::before { content: '——  '; opacity: 0.5; }
+  .label::before {
+    content: '——  ';
+    color: var(--gold);
+    opacity: 1;
+  }
 
   .slider-wrap {
     position: relative;
@@ -416,6 +423,7 @@
     user-select: none;
     background: #1a1a1a;
     border: 1px solid var(--line);
+    border-top: 2px solid var(--gold);
     box-shadow: 0 30px 80px -30px rgba(14, 35, 24, 0.45);
     touch-action: none;
   }
@@ -487,11 +495,16 @@
     backdrop-filter: blur(8px);
     z-index: 4;
   }
-  .slider-tag.before { left: 1.2rem; }
+  .slider-tag.before {
+    left: 1.2rem;
+    border-left: 2px solid var(--cream);
+    opacity: 0.9;
+  }
   .slider-tag.after {
     right: 1.2rem;
     background: var(--gold);
     color: var(--green);
+    font-weight: 600;
   }
   .slider-hint {
     text-align: center;
@@ -546,7 +559,7 @@
     will-change: transform;
   }
   .marquee-track span {
-    font-family: var(--accent);
+    font-family: var(--serif);
     font-style: italic;
     font-size: clamp(1.3rem, 4vw, 3rem);
     font-weight: 400;
@@ -559,7 +572,7 @@
   .marquee-track .dot {
     font-family: var(--sans);
     font-style: normal;
-    color: var(--spring);
+    color: var(--gold);
   }
   @keyframes marquee {
     from { transform: translateX(0); }
@@ -580,16 +593,16 @@
   .how-head h2 {
     font-family: var(--serif);
     font-size: var(--display-lg);
-    font-weight: 400;
-    line-height: 0.9;
+    font-weight: 600;
+    line-height: 0.95;
     letter-spacing: -0.03em;
   }
   .how-head h2 em {
-    font-family: var(--accent);
-    font-style: italic;
-    font-weight: 400;
+    font-family: var(--serif);
+    font-style: normal;
+    font-weight: 700;
     color: var(--spring);
-    letter-spacing: -0.01em;
+    letter-spacing: -0.02em;
   }
   .how-head .meta {
     font-family: var(--mono);
@@ -602,7 +615,7 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 0;
-    border-top: 1px solid var(--line-cream);
+    border-top: 2px solid var(--gold);
   }
   .how-step {
     padding: 3rem 2rem 3rem 0;
@@ -614,9 +627,10 @@
     font-family: var(--mono);
     font-size: 0.75rem;
     letter-spacing: 0.2em;
-    opacity: 0.5;
+    opacity: 1;
     margin-bottom: 1rem;
     color: var(--gold);
+    font-weight: 500;
   }
   .how-step h3 {
     font-family: var(--sans);
@@ -627,11 +641,11 @@
     margin-bottom: 1.2rem;
   }
   .how-step h3 em {
-    font-family: var(--accent);
-    font-style: italic;
-    font-weight: 400;
-    color: var(--spring);
-    letter-spacing: -0.01em;
+    font-family: var(--sans);
+    font-style: normal;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: -0.03em;
   }
   .how-step p {
     font-size: 0.95rem;
@@ -657,17 +671,17 @@
   .statement h2 {
     font-family: var(--serif);
     font-size: var(--display-xl);
-    font-weight: 400;
-    line-height: 0.88;
+    font-weight: 600;
+    line-height: 0.92;
     letter-spacing: -0.04em;
     max-width: 16ch;
   }
   .statement h2 em {
-    font-family: var(--accent);
-    font-style: italic;
-    font-weight: 400;
+    font-family: var(--serif);
+    font-style: normal;
+    font-weight: 700;
     color: var(--spring);
-    letter-spacing: -0.01em;
+    letter-spacing: -0.02em;
   }
   .statement .label { display: block; margin-bottom: 2.5rem; }
 
@@ -675,7 +689,7 @@
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 0;
-    border-top: 1px solid var(--line);
+    border-top: 2px solid var(--gold);
     border-bottom: 1px solid var(--line);
   }
   .stat {
@@ -686,16 +700,16 @@
   .stat-num {
     font-family: var(--serif);
     font-size: clamp(2.8rem, 6vw, 5rem);
-    font-weight: 400;
-    line-height: 0.9;
+    font-weight: 600;
+    line-height: 0.95;
     letter-spacing: -0.03em;
     margin-bottom: 0.6rem;
   }
   .stat-num em {
-    font-family: var(--accent);
-    font-style: italic;
-    font-weight: 400;
-    color: var(--spring);
+    font-family: var(--serif);
+    font-style: normal;
+    font-weight: 700;
+    color: var(--gold);
   }
   .stat-label {
     font-family: var(--mono);
@@ -730,17 +744,17 @@
   .form-grid h2 {
     font-family: var(--serif);
     font-size: var(--display-md);
-    font-weight: 400;
-    line-height: 0.95;
+    font-weight: 700;
+    line-height: 1;
     letter-spacing: -0.03em;
     margin-bottom: 1.5rem;
   }
   .form-grid h2 em {
-    font-family: var(--accent);
-    font-style: italic;
-    font-weight: 400;
+    font-family: var(--serif);
+    font-style: normal;
+    font-weight: 700;
     color: var(--spring);
-    letter-spacing: -0.01em;
+    letter-spacing: -0.02em;
   }
   .form-grid p {
     font-size: 1rem;
@@ -764,7 +778,7 @@
     color: inherit;
     background: transparent;
     border: none;
-    border-bottom: 1px solid var(--line);
+    border-bottom: 1px solid var(--line-cream);
     padding: 0.7rem 0;
     outline: none;
     transition: border-color 0.3s ease;
@@ -774,11 +788,26 @@
   .field textarea { resize: vertical; min-height: 80px; }
   .field select {
     appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%230e2318' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23faf1ca' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 0.7rem center;
     padding-right: 2rem;
   }
+  .field input::placeholder, .field textarea::placeholder { color: rgba(250, 241, 202, 0.4); }
+  .field input[type="file"]::-webkit-file-upload-button {
+    background: transparent;
+    color: var(--cream);
+    border: 1px solid var(--line-cream);
+    padding: 0.4rem 0.8rem;
+    border-radius: 100px;
+    margin-right: 0.6rem;
+    cursor: pointer;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .field select option { background: var(--green-deep); color: var(--cream); }
   .form-submit {
     margin-top: 1rem;
     align-self: flex-start;
@@ -816,28 +845,29 @@
     color: var(--cream);
     position: relative;
     overflow: hidden;
+    border-top: 2px solid var(--gold);
   }
   .booking::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: radial-gradient(ellipse at 50% 0%, rgba(201, 165, 90, 0.18) 0%, transparent 60%);
+    background: radial-gradient(ellipse at 50% 0%, rgba(201, 165, 90, 0.28) 0%, transparent 65%);
   }
   .booking-inner { position: relative; z-index: 1; max-width: 880px; margin: 0 auto; }
   .booking h2 {
     font-family: var(--serif);
     font-size: var(--display-md);
-    font-weight: 400;
+    font-weight: 600;
     line-height: 1;
     letter-spacing: -0.03em;
     margin: 1.5rem 0 1.5rem;
   }
   .booking h2 em {
-    font-family: var(--accent);
-    font-style: italic;
-    font-weight: 400;
+    font-family: var(--serif);
+    font-style: normal;
+    font-weight: 700;
     color: var(--spring);
-    letter-spacing: -0.01em;
+    letter-spacing: -0.02em;
   }
   .booking p {
     font-size: 1.05rem;
@@ -856,7 +886,7 @@
     background: var(--green-deep);
     color: var(--cream);
     padding: 4rem 2rem 2rem;
-    border-top: 1px solid var(--line-cream);
+    border-top: 2px solid var(--gold);
   }
   @media (max-width: 720px) {
     footer { padding: 3rem 1.3rem 2rem; }
@@ -1141,14 +1171,14 @@
 </section>
 
 <!-- QUOTE FORM -->
-<section class="section-cream form-section" id="quote">
+<section class="section-dark form-section" id="quote">
   <div class="form-grid">
     <div class="reveal">
       <span class="label">№ 04 — Get your render</span>
       <h2>One <em>photo</em>.<br />One free render.</h2>
       <p>
         Fill the form, attach your yard photo, and we'll have your AI render
-        back within ~24 hours. Or call <a href="tel:+14085551234" style="text-decoration: underline; text-decoration-color: var(--spring); text-underline-offset: 4px; font-weight: 500;">(408) 555-1234</a> if you'd rather talk.
+        back within ~24 hours. Or call <a href="tel:+14085551234" style="text-decoration: underline; text-decoration-color: var(--gold); text-underline-offset: 4px; font-weight: 500; color: var(--gold);">(408) 555-1234</a> if you'd rather talk.
       </p>
       <div style="margin-top: 2.5rem;">
         <span class="label" style="display: block;">Or skip the form</span>
