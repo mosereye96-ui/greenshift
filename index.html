@@ -750,6 +750,328 @@
   }
 
   .form-section { padding: 8rem 2rem; }
+
+  /* RENDER FLOW */
+  .render-flow {
+    max-width: 920px;
+    margin: 0 auto;
+  }
+  .render-head {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+  .render-head h2 {
+    font-family: var(--serif);
+    font-size: var(--display-lg);
+    font-weight: 700;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    margin-bottom: 1.5rem;
+  }
+  .render-head h2 em {
+    font-family: var(--serif);
+    font-style: normal;
+    font-weight: 700;
+    color: var(--spring);
+  }
+  .render-sub {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    opacity: 0.85;
+    max-width: 36rem;
+    margin: 0 auto;
+  }
+  .render-sub strong {
+    color: var(--spring);
+    font-weight: 600;
+  }
+
+  .render-stage { animation: stage-in 0.6s ease both; }
+  @keyframes stage-in {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Upload zone */
+  .upload-zone {
+    display: block;
+    position: relative;
+    border: 2px dashed var(--line-cream);
+    border-radius: 16px;
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    overflow: hidden;
+    background: rgba(250, 241, 202, 0.02);
+  }
+  .upload-zone:hover {
+    border-color: var(--spring);
+    background: rgba(111, 181, 68, 0.04);
+  }
+  .upload-zone.dragging {
+    border-color: var(--spring);
+    background: rgba(111, 181, 68, 0.08);
+    transform: scale(1.005);
+  }
+  .upload-zone.has-photo { border-style: solid; border-color: var(--gold); }
+
+  .upload-inner {
+    padding: 4rem 2rem;
+    text-align: center;
+    color: var(--cream);
+  }
+  .upload-icon {
+    width: 56px; height: 56px;
+    margin: 0 auto 1.2rem;
+    color: var(--spring);
+    opacity: 0.85;
+  }
+  .upload-title {
+    font-family: var(--serif);
+    font-size: 1.6rem;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+    letter-spacing: -0.01em;
+  }
+  .upload-sub {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    opacity: 0.55;
+  }
+
+  .upload-preview {
+    position: relative;
+    aspect-ratio: 16 / 10;
+  }
+  .upload-preview img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .upload-clear {
+    position: absolute;
+    top: 1rem; right: 1rem;
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: rgba(8, 23, 16, 0.85);
+    color: var(--cream);
+    font-size: 1.4rem;
+    line-height: 1;
+    cursor: pointer;
+    backdrop-filter: blur(8px);
+    transition: background 0.2s ease;
+    z-index: 2;
+  }
+  .upload-clear:hover { background: var(--green-deep); }
+
+  .render-cta {
+    width: 100%;
+    margin-top: 1.5rem;
+    justify-content: center;
+    padding: 1.2rem 1.6rem;
+    font-size: 0.78rem;
+  }
+  .render-cta:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: none !important;
+  }
+  .upload-error {
+    margin-top: 1rem;
+    padding: 0.8rem 1rem;
+    background: rgba(220, 80, 60, 0.12);
+    border-left: 3px solid #dc5040;
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: #ff9a8a;
+    border-radius: 4px;
+  }
+
+  /* Rendering state */
+  .render-loading {
+    text-align: center;
+    padding: 5rem 2rem;
+    border: 1px solid var(--line-cream);
+    border-radius: 16px;
+  }
+  .render-spinner {
+    display: inline-flex;
+    gap: 0.6rem;
+    margin-bottom: 2rem;
+  }
+  .render-spinner div {
+    width: 14px; height: 14px;
+    background: var(--spring);
+    border-radius: 50%;
+    animation: bounce 1.4s ease-in-out infinite both;
+  }
+  .render-spinner div:nth-child(1) { animation-delay: -0.32s; }
+  .render-spinner div:nth-child(2) { animation-delay: -0.16s; }
+  @keyframes bounce {
+    0%, 80%, 100% { transform: scale(0.6); opacity: 0.5; }
+    40% { transform: scale(1); opacity: 1; }
+  }
+  .render-loading-title {
+    font-family: var(--serif);
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.01em;
+  }
+  .render-loading-sub {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    opacity: 0.65;
+    margin-bottom: 2rem;
+  }
+  .render-progress {
+    max-width: 320px;
+    height: 3px;
+    margin: 0 auto;
+    background: rgba(250, 241, 202, 0.1);
+    border-radius: 100px;
+    overflow: hidden;
+  }
+  .render-progress-bar {
+    height: 100%;
+    background: var(--spring);
+    border-radius: 100px;
+    width: 0%;
+    transition: width 0.6s ease;
+  }
+
+  /* Reveal stage */
+  .reveal-head { text-align: center; margin-bottom: 1.5rem; }
+  .reveal-title {
+    font-family: var(--serif);
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    margin-top: 0.6rem;
+  }
+  .reveal-title em {
+    font-family: var(--serif);
+    font-style: normal;
+    font-weight: 700;
+    color: var(--spring);
+  }
+  .reveal-slider {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    cursor: ew-resize;
+    user-select: none;
+    background: #1a1a1a;
+    border: 1px solid var(--line-cream);
+    border-top: 2px solid var(--gold);
+    border-radius: 4px;
+    box-shadow: 0 30px 80px -30px rgba(0,0,0,0.6);
+    touch-action: none;
+  }
+  .reveal-pane { position: absolute; inset: 0; }
+  .reveal-pane img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+  .reveal-pane-after {
+    clip-path: inset(0 0 0 50%);
+    transition: clip-path 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .reveal-slider.dragging .reveal-pane-after { transition: none; }
+  .reveal-handle {
+    position: absolute;
+    top: 0; bottom: 0; left: 50%;
+    width: 2px;
+    background: var(--cream);
+    transform: translateX(-50%);
+    pointer-events: none;
+    z-index: 3;
+    transition: left 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .reveal-slider.dragging .reveal-handle { transition: none; }
+  .reveal-handle::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 50px; height: 50px;
+    background: var(--cream);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+  }
+  .reveal-handle::after {
+    content: '⇄';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--green);
+    font-weight: 700;
+    font-size: 1.2rem;
+  }
+  .reveal-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 1.5rem;
+  }
+
+  .reveal-form-block {
+    margin-top: 4rem;
+    padding-top: 3rem;
+    border-top: 1px solid var(--line-cream);
+  }
+  .form-cta-heading {
+    font-family: var(--serif);
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+  .form-cta-heading em {
+    font-family: var(--serif);
+    font-style: normal;
+    font-weight: 700;
+    color: var(--spring);
+  }
+  .form-cta-sub {
+    text-align: center;
+    font-size: 1rem;
+    line-height: 1.5;
+    opacity: 0.8;
+    max-width: 32rem;
+    margin: 0 auto 2.5rem;
+  }
+  #leadForm {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.4rem 2rem;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  #leadForm .field:nth-child(1),
+  #leadForm .field:nth-child(2),
+  #leadForm .field:nth-child(3),
+  #leadForm .field:nth-child(4),
+  #leadForm .field:nth-child(5),
+  #leadForm .field:nth-child(6) { grid-column: span 1; }
+  #leadForm .form-submit { grid-column: span 2; justify-self: center; margin-top: 1rem; }
+  #leadForm .form-success { grid-column: span 2; }
+
+  @media (max-width: 720px) {
+    .upload-inner { padding: 2.5rem 1.2rem; }
+    .upload-title { font-size: 1.25rem; }
+    .render-loading { padding: 3rem 1.2rem; }
+    .render-loading-title { font-size: 1.4rem; }
+    .reveal-handle::before { width: 40px; height: 40px; }
+    #leadForm { grid-template-columns: 1fr; gap: 1.2rem; }
+    #leadForm .form-submit { grid-column: span 1; }
+    #leadForm .form-success { grid-column: span 1; }
+  }
   .form-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -996,6 +1318,16 @@
 </head>
 <body>
 
+<!-- Hidden form for Netlify Forms detection on first build -->
+<form name="lead" netlify netlify-honeypot="bot-field" hidden>
+  <input type="text" name="name" />
+  <input type="email" name="email" />
+  <input type="tel" name="phone" />
+  <input type="text" name="zip" />
+  <input type="text" name="size" />
+  <input type="url" name="render_url" />
+</form>
+
 <!-- Reusable SVG logo mark (grass blades) -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
@@ -1179,61 +1511,122 @@
 
 <!-- QUOTE FORM -->
 <section class="section-dark form-section" id="quote">
-  <div class="form-grid">
-    <div class="reveal">
+  <div class="render-flow">
+    <!-- Heading -->
+    <div class="render-head reveal">
       <span class="label">№ 04 — Get your render</span>
       <h2>One <em>photo</em>.<br />One free render.</h2>
-      <p>
-        Fill the form, attach your yard photo, and we'll have your AI render
-        back within ~24 hours.
+      <p class="render-sub">
+        Upload a photo of your yard. In under a minute, we'll show you what
+        artificial turf would look like — same yard, same angle, photorealistic.
+        <strong>Free, no commitment.</strong>
       </p>
     </div>
 
-    <form class="reveal" id="quoteForm" name="quote" method="POST" data-netlify="true">
-      <input type="hidden" name="form-name" value="quote" />
-      <div class="field">
-        <label for="name">Name</label>
-        <input id="name" name="name" type="text" required autocomplete="name" />
+    <!-- STAGE 1: Upload -->
+    <div class="render-stage" id="stage-upload">
+      <label for="photoInput" class="upload-zone" id="uploadZone">
+        <input type="file" id="photoInput" accept="image/*" hidden />
+        <div class="upload-inner" id="uploadInner">
+          <svg class="upload-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M24 32V12M24 12l-8 8M24 12l8 8" />
+            <path d="M8 32v6a2 2 0 002 2h28a2 2 0 002-2v-6" />
+          </svg>
+          <div class="upload-title">Drop your yard photo here</div>
+          <div class="upload-sub">or click to browse · JPG / PNG · max 10MB</div>
+        </div>
+        <div class="upload-preview" id="uploadPreview" hidden>
+          <img id="uploadPreviewImg" alt="Your uploaded yard photo" />
+          <button type="button" class="upload-clear" id="uploadClear" aria-label="Remove photo">×</button>
+        </div>
+      </label>
+      <button class="btn btn-primary render-cta" id="renderBtn" disabled>
+        Get my free render →
+      </button>
+      <p class="upload-error" id="uploadError" hidden></p>
+    </div>
+
+    <!-- STAGE 2: Rendering -->
+    <div class="render-stage" id="stage-rendering" hidden>
+      <div class="render-loading">
+        <div class="render-spinner" aria-hidden="true">
+          <div></div><div></div><div></div>
+        </div>
+        <div class="render-loading-title">Rendering your yard…</div>
+        <div class="render-loading-sub" id="renderStatus">Sending your photo to the AI</div>
+        <div class="render-progress"><div class="render-progress-bar" id="renderProgressBar"></div></div>
       </div>
-      <div class="field">
-        <label for="email">Email</label>
-        <input id="email" name="email" type="email" required autocomplete="email" />
+    </div>
+
+    <!-- STAGE 3: Reveal + capture -->
+    <div class="render-stage" id="stage-reveal" hidden>
+      <div class="reveal-head">
+        <span class="label" style="color: var(--spring); opacity: 1;">— Your render is ready</span>
+        <h3 class="reveal-title">Here's your yard, <em>green</em>.</h3>
       </div>
-      <div class="field">
-        <label for="phone">Phone</label>
-        <input id="phone" name="phone" type="tel" required autocomplete="tel" />
+
+      <div class="reveal-slider" id="revealSlider">
+        <div class="reveal-pane">
+          <img id="revealBefore" alt="Your yard before" />
+        </div>
+        <div class="reveal-pane reveal-pane-after" id="revealAfterPane">
+          <img id="revealAfter" alt="Your yard with artificial turf installed" />
+        </div>
+        <div class="reveal-handle" id="revealHandle"></div>
+        <div class="slider-tag before">Before</div>
+        <div class="slider-tag after">After</div>
       </div>
-      <div class="field">
-        <label for="zip">ZIP code</label>
-        <input id="zip" name="zip" type="text" required autocomplete="postal-code" pattern="[0-9]{5}" />
+
+      <div class="reveal-actions">
+        <button type="button" class="btn btn-ghost" id="renderRestart">Try another photo</button>
       </div>
-      <div class="field">
-        <label for="size">Approx. yard size</label>
-        <select id="size" name="size" required>
-          <option value="">Choose one…</option>
-          <option>Under 300 sqft</option>
-          <option>300 – 600 sqft</option>
-          <option>600 – 1,000 sqft</option>
-          <option>1,000 – 2,000 sqft</option>
-          <option>Over 2,000 sqft</option>
-          <option>Not sure</option>
-        </select>
-      </div>
-      <div class="field">
-        <label for="notes">Anything we should know? (optional)</label>
-        <textarea id="notes" name="notes" rows="3"></textarea>
-      </div>
-      <div class="field">
-        <label>Yard photo</label>
-        <p style="font-size: 0.85rem; opacity: 0.7; margin-top: 0.3rem; line-height: 1.5;">
-          After you submit, we'll text you a secure upload link so you can send your yard photo from any device.
+
+      <!-- Contact form appears AFTER they see the render -->
+      <div class="reveal-form-block">
+        <h3 class="form-cta-heading">Love it? <em>Get a real quote.</em></h3>
+        <p class="form-cta-sub">
+          Drop your info and we'll connect you with a licensed Bay Area
+          installer for a free, no-pressure quote on your yard.
         </p>
+
+        <form id="leadForm" name="lead" method="POST" data-netlify="true">
+          <input type="hidden" name="form-name" value="lead" />
+          <input type="hidden" name="render_url" id="leadRenderUrl" />
+          <div class="field">
+            <label for="name">Name</label>
+            <input id="name" name="name" type="text" required autocomplete="name" />
+          </div>
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" required autocomplete="email" />
+          </div>
+          <div class="field">
+            <label for="phone">Phone</label>
+            <input id="phone" name="phone" type="tel" required autocomplete="tel" />
+          </div>
+          <div class="field">
+            <label for="zip">ZIP code</label>
+            <input id="zip" name="zip" type="text" required autocomplete="postal-code" pattern="[0-9]{5}" />
+          </div>
+          <div class="field">
+            <label for="size">Approx. yard size</label>
+            <select id="size" name="size" required>
+              <option value="">Choose one…</option>
+              <option>Under 300 sqft</option>
+              <option>300 – 600 sqft</option>
+              <option>600 – 1,000 sqft</option>
+              <option>1,000 – 2,000 sqft</option>
+              <option>Over 2,000 sqft</option>
+              <option>Not sure</option>
+            </select>
+          </div>
+          <button class="btn form-submit" type="submit">Connect me with an installer →</button>
+          <div class="form-success" id="formSuccess">
+            Got it — we'll text you within the hour to coordinate a quote.
+          </div>
+        </form>
       </div>
-      <button class="btn form-submit" type="submit">Request my free render →</button>
-      <div class="form-success" id="formSuccess">
-        Got it — request received. We'll be in touch within 24 hours.
-      </div>
-    </form>
+    </div>
   </div>
 </section>
 
@@ -1404,16 +1797,257 @@
     introObs.observe(wrap);
   })();
 
-  const form = document.getElementById('quoteForm');
-  if (form) {
-    form.addEventListener('submit', (e) => {
-      if (location.hostname === 'localhost' || location.hostname === '127.0.0.1' || location.protocol === 'file:') {
-        e.preventDefault();
-        document.getElementById('formSuccess').classList.add('show');
-        form.reset();
+  // ===== RENDER FLOW =====
+  (function () {
+    const photoInput = document.getElementById('photoInput');
+    const uploadZone = document.getElementById('uploadZone');
+    const uploadInner = document.getElementById('uploadInner');
+    const uploadPreview = document.getElementById('uploadPreview');
+    const uploadPreviewImg = document.getElementById('uploadPreviewImg');
+    const uploadClear = document.getElementById('uploadClear');
+    const uploadError = document.getElementById('uploadError');
+    const renderBtn = document.getElementById('renderBtn');
+    const stageUpload = document.getElementById('stage-upload');
+    const stageRendering = document.getElementById('stage-rendering');
+    const stageReveal = document.getElementById('stage-reveal');
+    const renderStatus = document.getElementById('renderStatus');
+    const renderProgressBar = document.getElementById('renderProgressBar');
+    const revealBefore = document.getElementById('revealBefore');
+    const revealAfter = document.getElementById('revealAfter');
+    const revealAfterPane = document.getElementById('revealAfterPane');
+    const revealHandle = document.getElementById('revealHandle');
+    const revealSlider = document.getElementById('revealSlider');
+    const renderRestart = document.getElementById('renderRestart');
+    const leadRenderUrl = document.getElementById('leadRenderUrl');
+    const leadForm = document.getElementById('leadForm');
+    const formSuccess = document.getElementById('formSuccess');
+
+    if (!photoInput) return;
+
+    let uploadedDataUrl = null;
+    let pollTimer = null;
+
+    // ---- File handling ----
+    const showError = (msg) => {
+      uploadError.hidden = false;
+      uploadError.textContent = msg;
+      setTimeout(() => { uploadError.hidden = true; }, 5000);
+    };
+
+    const handleFile = (file) => {
+      if (!file) return;
+      if (!file.type.startsWith('image/')) {
+        showError('Please upload an image file (JPG or PNG).');
+        return;
       }
+      if (file.size > 10 * 1024 * 1024) {
+        showError('Photo too large — please use one under 10MB.');
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        uploadedDataUrl = e.target.result;
+        uploadPreviewImg.src = uploadedDataUrl;
+        uploadInner.hidden = true;
+        uploadPreview.hidden = false;
+        uploadZone.classList.add('has-photo');
+        renderBtn.disabled = false;
+      };
+      reader.readAsDataURL(file);
+    };
+
+    photoInput.addEventListener('change', (e) => handleFile(e.target.files[0]));
+
+    // Drag & drop
+    ['dragenter', 'dragover'].forEach(ev => {
+      uploadZone.addEventListener(ev, (e) => {
+        e.preventDefault();
+        uploadZone.classList.add('dragging');
+      });
     });
-  }
+    ['dragleave', 'drop'].forEach(ev => {
+      uploadZone.addEventListener(ev, (e) => {
+        e.preventDefault();
+        uploadZone.classList.remove('dragging');
+      });
+    });
+    uploadZone.addEventListener('drop', (e) => {
+      handleFile(e.dataTransfer.files[0]);
+    });
+
+    uploadClear.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      uploadedDataUrl = null;
+      photoInput.value = '';
+      uploadPreviewImg.src = '';
+      uploadInner.hidden = false;
+      uploadPreview.hidden = true;
+      uploadZone.classList.remove('has-photo');
+      renderBtn.disabled = true;
+    });
+
+    // ---- Stage transitions ----
+    const showStage = (which) => {
+      stageUpload.hidden = which !== 'upload';
+      stageRendering.hidden = which !== 'rendering';
+      stageReveal.hidden = which !== 'reveal';
+      if (which !== 'upload') {
+        // Smooth scroll to keep the stage in view
+        document.getElementById('quote').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    };
+
+    // ---- Render API ----
+    const setRenderStatus = (msg, pct) => {
+      if (msg) renderStatus.textContent = msg;
+      if (typeof pct === 'number') renderProgressBar.style.width = pct + '%';
+    };
+
+    const startRender = async () => {
+      if (!uploadedDataUrl) return;
+      showStage('rendering');
+      setRenderStatus('Sending your photo to the AI', 10);
+
+      try {
+        const res = await fetch('/.netlify/functions/start-render', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ image: uploadedDataUrl })
+        });
+        const data = await res.json();
+
+        if (!res.ok || !data.id) {
+          throw new Error(data.error || 'Could not start render');
+        }
+        setRenderStatus('AI is reimagining your yard', 30);
+        pollRender(data.id);
+      } catch (err) {
+        console.error(err);
+        renderFailed('We couldn\'t kick off the render. Try again, or send your photo to (408) 341-5826.');
+      }
+    };
+
+    const pollRender = (id) => {
+      let attempts = 0;
+      const maxAttempts = 60; // 60 × 2.5s = 150s max
+      let progress = 30;
+
+      const tick = async () => {
+        attempts++;
+        if (attempts > maxAttempts) {
+          renderFailed('The render is taking longer than expected. Try again in a moment.');
+          return;
+        }
+        try {
+          const res = await fetch(`/.netlify/functions/check-render?id=${encodeURIComponent(id)}`);
+          const data = await res.json();
+
+          // Bump progress visually so it feels alive
+          progress = Math.min(90, progress + 3);
+          setRenderStatus(undefined, progress);
+
+          if (data.status === 'succeeded' && data.output) {
+            const outputUrl = Array.isArray(data.output) ? data.output[0] : data.output;
+            setRenderStatus('Done', 100);
+            setTimeout(() => showRender(outputUrl), 400);
+            return;
+          }
+          if (data.status === 'failed' || data.error) {
+            renderFailed(data.error || 'The AI couldn\'t process this photo. Try a clearer yard shot.');
+            return;
+          }
+          // Status messages by stage
+          if (attempts === 4) setRenderStatus('Replacing the grass with turf', undefined);
+          if (attempts === 10) setRenderStatus('Refining the details', undefined);
+          if (attempts === 20) setRenderStatus('Almost there', undefined);
+          pollTimer = setTimeout(tick, 2500);
+        } catch (err) {
+          console.error(err);
+          renderFailed('Lost connection while rendering. Please try again.');
+        }
+      };
+      pollTimer = setTimeout(tick, 1500);
+    };
+
+    const renderFailed = (msg) => {
+      if (pollTimer) clearTimeout(pollTimer);
+      showStage('upload');
+      showError(msg);
+    };
+
+    const showRender = (outputUrl) => {
+      revealBefore.src = uploadedDataUrl;
+      revealAfter.src = outputUrl;
+      leadRenderUrl.value = outputUrl;
+      showStage('reveal');
+      // Initialize slider sweep
+      requestAnimationFrame(() => {
+        setSliderPos(100);
+        setTimeout(() => setSliderPos(50), 300);
+      });
+    };
+
+    renderBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      startRender();
+    });
+
+    renderRestart.addEventListener('click', () => {
+      uploadedDataUrl = null;
+      photoInput.value = '';
+      uploadPreviewImg.src = '';
+      uploadInner.hidden = false;
+      uploadPreview.hidden = true;
+      uploadZone.classList.remove('has-photo');
+      renderBtn.disabled = true;
+      showStage('upload');
+    });
+
+    // ---- Reveal slider ----
+    let dragging = false;
+    const setSliderPos = (pct) => {
+      pct = Math.max(0, Math.min(100, pct));
+      revealAfterPane.style.clipPath = `inset(0 0 0 ${pct}%)`;
+      revealHandle.style.left = pct + '%';
+    };
+    const fromClientX = (clientX) => {
+      const rect = revealSlider.getBoundingClientRect();
+      return ((clientX - rect.left) / rect.width) * 100;
+    };
+    if (window.PointerEvent) {
+      revealSlider.addEventListener('pointerdown', (e) => {
+        dragging = true;
+        revealSlider.classList.add('dragging');
+        revealSlider.setPointerCapture && revealSlider.setPointerCapture(e.pointerId);
+        setSliderPos(fromClientX(e.clientX));
+      });
+      revealSlider.addEventListener('pointermove', (e) => {
+        if (dragging) setSliderPos(fromClientX(e.clientX));
+      });
+      revealSlider.addEventListener('pointerup', () => {
+        dragging = false;
+        revealSlider.classList.remove('dragging');
+      });
+      revealSlider.addEventListener('pointercancel', () => {
+        dragging = false;
+        revealSlider.classList.remove('dragging');
+      });
+    }
+
+    // ---- Lead form submit ----
+    if (leadForm) {
+      leadForm.addEventListener('submit', (e) => {
+        const isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1' || location.protocol === 'file:';
+        if (isLocal) {
+          e.preventDefault();
+          formSuccess.classList.add('show');
+          leadForm.querySelectorAll('input:not([type="hidden"]), select').forEach(el => el.value = '');
+        }
+        // Otherwise let Netlify handle the POST natively
+      });
+    }
+  })();
 
   const io = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
