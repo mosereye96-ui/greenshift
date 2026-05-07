@@ -57,6 +57,7 @@
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
+  [hidden] { display: none !important; }
   html {
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
@@ -1319,7 +1320,7 @@
 <body>
 
 <!-- Hidden form for Netlify Forms detection on first build -->
-<form name="lead" netlify netlify-honeypot="bot-field" hidden>
+<form name="lead" netlify netlify-honeypot="bot-field" style="display:none !important;" aria-hidden="true">
   <input type="text" name="name" />
   <input type="email" name="email" />
   <input type="tel" name="phone" />
