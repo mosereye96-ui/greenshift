@@ -752,6 +752,211 @@
 
   .form-section { padding: 8rem 2rem; }
 
+  /* FAQ */
+  .faq { padding: 7rem 2rem; }
+  .faq-head {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+  .faq-head h2 {
+    font-family: var(--serif);
+    font-size: var(--display-lg);
+    font-weight: 700;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    margin-top: 1rem;
+  }
+  .faq-head h2 em {
+    font-family: var(--serif);
+    font-style: normal;
+    font-weight: 700;
+    color: var(--spring);
+  }
+  .faq-list {
+    max-width: 880px;
+    margin: 0 auto;
+    border-top: 1px solid var(--line);
+  }
+  .faq-item {
+    border-bottom: 1px solid var(--line);
+  }
+  .faq-item summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 1.6rem 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+    font-family: var(--serif);
+    font-size: clamp(1.1rem, 2vw, 1.4rem);
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    transition: color 0.2s ease;
+  }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item summary:hover { color: var(--gold-deep); }
+  .faq-toggle {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    position: relative;
+    transition: transform 0.3s ease;
+  }
+  .faq-toggle::before, .faq-toggle::after {
+    content: '';
+    position: absolute;
+    background: var(--green);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    transition: transform 0.3s ease, background 0.2s ease;
+  }
+  .faq-toggle::before {
+    width: 14px; height: 2px;
+  }
+  .faq-toggle::after {
+    width: 2px; height: 14px;
+  }
+  .faq-item[open] .faq-toggle::after {
+    transform: translate(-50%, -50%) scaleY(0);
+  }
+  .faq-item[open] summary { color: var(--gold-deep); }
+  .faq-answer {
+    padding: 0 0 1.8rem 0;
+    max-width: 56rem;
+    animation: faq-open 0.4s ease;
+  }
+  .faq-answer p {
+    font-size: 1rem;
+    line-height: 1.7;
+    opacity: 0.85;
+  }
+  .faq-answer strong {
+    color: var(--green);
+    font-weight: 600;
+  }
+  @keyframes faq-open {
+    from { opacity: 0; transform: translateY(-6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @media (max-width: 720px) {
+    .faq { padding: 4rem 1.3rem; }
+    .faq-head { margin-bottom: 2.5rem; }
+    .faq-item summary { padding: 1.2rem 0; gap: 1rem; }
+    .faq-toggle { width: 22px; height: 22px; }
+    .faq-toggle::before { width: 12px; }
+    .faq-toggle::after { height: 12px; }
+  }
+
+  /* TESTIMONIALS */
+  .testimonials { padding: 7rem 2rem; }
+  .testimonials-head {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+  .testimonials-head h2 {
+    font-family: var(--serif);
+    font-size: var(--display-lg);
+    font-weight: 700;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    margin-top: 1rem;
+  }
+  .testimonials-head h2 em {
+    font-family: var(--serif);
+    font-style: normal;
+    font-weight: 700;
+    color: var(--spring);
+  }
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+  .testimonial {
+    padding: 2.2rem 2rem;
+    border: 1px solid var(--line-cream);
+    border-top: 2px solid var(--gold);
+    background: rgba(250, 241, 202, 0.02);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    border-radius: 4px;
+  }
+  .testimonial blockquote {
+    font-family: var(--serif);
+    font-size: 1.15rem;
+    font-weight: 500;
+    line-height: 1.5;
+    letter-spacing: -0.005em;
+    color: var(--cream);
+    flex: 1;
+    quotes: '"' '"';
+  }
+  .testimonial figcaption {
+    border-top: 1px solid var(--line-cream);
+    padding-top: 1rem;
+  }
+  .testimonial .t-meta {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    opacity: 0.65;
+  }
+  @media (max-width: 900px) {
+    .testimonials-grid { grid-template-columns: 1fr; gap: 1.2rem; }
+    .testimonial { padding: 1.8rem 1.5rem; }
+    .testimonial blockquote { font-size: 1.05rem; }
+  }
+  @media (max-width: 720px) {
+    .testimonials { padding: 4rem 1.3rem; }
+    .testimonials-head { margin-bottom: 2.5rem; }
+  }
+
+  /* PRICING CONTEXT */
+  .pricing-context { padding: 6rem 2rem; }
+  .pricing-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+    border-top: 2px solid var(--gold);
+    padding-top: 3rem;
+  }
+  .pricing-headline {
+    font-family: var(--serif);
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    margin-top: 0.6rem;
+  }
+  .pricing-headline em {
+    font-family: var(--serif);
+    font-style: normal;
+    font-weight: 700;
+    color: var(--spring);
+  }
+  .pricing-right p {
+    font-size: 1rem;
+    line-height: 1.7;
+    opacity: 0.85;
+    margin-bottom: 1rem;
+  }
+  .pricing-right p:last-child { margin-bottom: 0; }
+  .pricing-right strong {
+    color: var(--green);
+    font-weight: 600;
+  }
+  @media (max-width: 900px) {
+    .pricing-row { grid-template-columns: 1fr; gap: 1.5rem; padding-top: 2rem; }
+  }
+  @media (max-width: 720px) {
+    .pricing-context { padding: 4rem 1.3rem; }
+  }
+
   /* RENDER FLOW */
   .render-flow {
     max-width: 920px;
@@ -1357,6 +1562,7 @@
   <div class="nav-links">
     <a href="#preview">Preview</a>
     <a href="#how">How it works</a>
+    <a href="#faq">FAQ</a>
     <a href="#quote">Get a quote</a>
     <a href="#" class="nav-cta" data-calendly>Book a call</a>
   </div>
@@ -1510,12 +1716,80 @@
   </div>
 </section>
 
+<!-- TESTIMONIALS -->
+<section class="section-dark testimonials" id="reviews">
+  <div class="container">
+    <div class="testimonials-head reveal">
+      <span class="label">№ 04 — What people say</span>
+      <h2>Real yards.<br /><em>Real results.</em></h2>
+    </div>
+    <div class="testimonials-grid">
+      <figure class="testimonial reveal">
+        <blockquote>
+          "Seeing the render before signing anything was the deciding factor.
+          We could finally picture what our backyard would actually look like
+          instead of guessing from sample squares."
+        </blockquote>
+        <figcaption>
+          <span class="t-meta">Bay Area homeowner — front yard install</span>
+        </figcaption>
+      </figure>
+      <figure class="testimonial reveal">
+        <blockquote>
+          "We had three quotes lined up. The render alone made us cancel the
+          other appointments. Saved us a week of sales pitches."
+        </blockquote>
+        <figcaption>
+          <span class="t-meta">South Bay homeowner — full yard conversion</span>
+        </figcaption>
+      </figure>
+      <figure class="testimonial reveal">
+        <blockquote>
+          "The render matched the install almost exactly. Same green, same
+          edges, same feel. No surprises on install day — exactly what we
+          paid for."
+        </blockquote>
+        <figcaption>
+          <span class="t-meta">Peninsula homeowner — pet-grade turf</span>
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING CONTEXT -->
+<section class="section-cream pricing-context">
+  <div class="container">
+    <div class="pricing-row reveal">
+      <div class="pricing-left">
+        <span class="label">№ 05 — What it costs</span>
+        <h2 class="pricing-headline">
+          Most installs land between<br />
+          <em>$8–$15</em> per square foot.
+        </h2>
+      </div>
+      <div class="pricing-right">
+        <p>
+          Pricing depends on three things: <strong>yard size</strong>
+          (bigger jobs scale down per sqft), <strong>prep work</strong>
+          (sod removal, base, drainage), and <strong>turf grade</strong>
+          (basic landscape vs. pet-grade vs. putting-green).
+        </p>
+        <p>
+          Your render comes with an itemized quote from a licensed installer
+          — no guessing, no upsells, no markup.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- QUOTE FORM -->
 <section class="section-dark form-section" id="quote">
   <div class="render-flow">
     <!-- Heading -->
     <div class="render-head reveal">
-      <span class="label">№ 04 — Get your render</span>
+      <span class="label">№ 06 — Get your render</span>
       <h2>One <em>photo</em>.<br />One free render.</h2>
       <p class="render-sub">
         Upload a photo of your yard. In under a minute, we'll show you what
@@ -1631,10 +1905,142 @@
   </div>
 </section>
 
+<!-- FAQ -->
+<section class="section-cream faq" id="faq">
+  <div class="container">
+    <div class="faq-head reveal">
+      <span class="label">№ 07 — Common questions</span>
+      <h2>Everything you'd<br /><em>actually</em> ask.</h2>
+    </div>
+
+    <div class="faq-list reveal">
+      <details class="faq-item">
+        <summary>
+          <span>How much does artificial turf cost?</span>
+          <span class="faq-toggle" aria-hidden="true"></span>
+        </summary>
+        <div class="faq-answer">
+          <p>Most Bay Area installs land between <strong>$8 and $15 per square foot, fully installed.</strong> A typical 600 sqft front yard runs $5,000–$8,000. A larger 1,500 sqft backyard runs $13,000–$20,000. The variables: yard size (bigger jobs scale down per sqft), prep work (existing sod removal, base, drainage), and turf grade (basic landscape vs. pet-grade vs. putting-green).</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>
+          <span>How does the free render actually work?</span>
+          <span class="faq-toggle" aria-hidden="true"></span>
+        </summary>
+        <div class="faq-answer">
+          <p>Upload one photo of your yard from where you usually stand. Our AI replaces the dead grass, dirt, and weeds with photorealistic artificial turf — preserving your fence, walkways, walls, and angles. Render comes back in under a minute, viewable directly in your browser. No email required to see it.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>
+          <span>What happens after I see my render?</span>
+          <span class="faq-toggle" aria-hidden="true"></span>
+        </summary>
+        <div class="faq-answer">
+          <p>If you love it, you drop your contact info and we connect you directly with one of our licensed Bay Area installer partners. They'll come out, take real measurements, and give you a written quote — usually within 48 hours. If you don't love it, no follow-up, no spam, no fee. We disappear.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>
+          <span>Who actually does the installation?</span>
+          <span class="faq-toggle" aria-hidden="true"></span>
+        </summary>
+        <div class="faq-answer">
+          <p>Independent California-licensed C-27 landscape contractors. Greeenshift is a lead generation service — we don't install ourselves. Our partners are vetted for licensing, insurance, and review history. You sign your install contract directly with them.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>
+          <span>How long does an install take?</span>
+          <span class="faq-toggle" aria-hidden="true"></span>
+        </summary>
+        <div class="faq-answer">
+          <p>Most residential jobs are 1–3 days from start to finish. A small front yard can be done in a single day. Larger backyards with grading, drainage, or border work usually take 2–3 days. Your installer will give you an exact timeline with the quote.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>
+          <span>Is artificial turf safe for kids and pets?</span>
+          <span class="faq-toggle" aria-hidden="true"></span>
+        </summary>
+        <div class="faq-answer">
+          <p>Yes. Modern turf is lead-free, non-toxic, and built to drain. For pet households, we recommend pet-grade turf with antimicrobial infill — it rinses clean, doesn't hold odor, and won't get destroyed by digging or claws. Costs about $0.50–$1 more per sqft than standard.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>
+          <span>How long does artificial turf last?</span>
+          <span class="faq-toggle" aria-hidden="true"></span>
+        </summary>
+        <div class="faq-answer">
+          <p>15–25 years with normal residential use. Most quality turf comes with an 8–15 year manufacturer warranty against fading and wear. Bay Area weather is ideal for turf longevity — no extreme freeze cycles, no ice damage. Many installs from 2010 still look new today.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>
+          <span>Will I save money on water and maintenance?</span>
+          <span class="faq-toggle" aria-hidden="true"></span>
+        </summary>
+        <div class="faq-answer">
+          <p>The average Bay Area homeowner saves $40–$120 per month on water during summer months once turf is installed. No mowing, no fertilizer, no reseeding, no sprinkler repairs. Most installs pay for themselves in 6–10 years just on water and maintenance savings — sooner if you're in a tier 3 or 4 water billing zone.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>
+          <span>Do you serve my area?</span>
+          <span class="faq-toggle" aria-hidden="true"></span>
+        </summary>
+        <div class="faq-answer">
+          <p>We currently serve San Jose, Santa Clara, Cupertino, Campbell, Saratoga, and Los Gatos. If you're nearby (Sunnyvale, Mountain View, Willow Glen, Almaden), reach out anyway — we can usually accommodate. Anywhere outside the South Bay, we'll let you know upfront and won't waste your time.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>
+          <span>How do I book a call instead of using the form?</span>
+          <span class="faq-toggle" aria-hidden="true"></span>
+        </summary>
+        <div class="faq-answer">
+          <p>Hit the "Book a Call" button anywhere on this page — you'll land on a 15-minute Calendly window with Moses (the founder). We'll talk through your yard, square footage, and whether turf is the right call before you commit to anything.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>
+          <span>Is there any cost or obligation for the render?</span>
+          <span class="faq-toggle" aria-hidden="true"></span>
+        </summary>
+        <div class="faq-answer">
+          <p>None. The render is free, the consultation is free, the quote is free. You only pay if you decide to install — and that payment goes directly to the licensed contractor, not to Greeenshift. We make money when our partners install successfully, which keeps our incentives aligned with you, not against you.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>
+          <span>What if I don't like the installer you connect me with?</span>
+          <span class="faq-toggle" aria-hidden="true"></span>
+        </summary>
+        <div class="faq-answer">
+          <p>Tell us. We work with three vetted partners and we'll route you to a different one — or step away entirely if it's not the right fit. You're never locked in until you sign an install contract directly with the contractor.</p>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
 <!-- BOOKING -->
 <section class="booking" id="book">
   <div class="booking-inner reveal">
-    <span class="label" style="opacity: 0.7;">№ 05 — Or skip ahead</span>
+    <span class="label" style="opacity: 0.7;">№ 08 — Or skip ahead</span>
     <h2>Rather just <em>talk</em>?</h2>
     <p>
       Book a 15-minute call with Moses. We'll walk through your yard, talk
